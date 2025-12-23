@@ -1,0 +1,1465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Piku — Level 22</title>
+
+  <!-- Elegant fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink: rgba(255,255,255,.93);
+      --muted: rgba(255,255,255,.72);
+
+      /* romantic palette */
+      --night:#070611;
+      --velvet:#130b25;
+      --plum:#26103f;
+      --rose:#ffb7c5;
+      --rose2:#ffd1a8;
+      --champ:#ffdca8;
+      --ice:#8be9ff;
+
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(255,255,255,.14);
+      --stroke: rgba(255,255,255,.14);
+      --shadow: 0 24px 80px rgba(0,0,0,.55);
+
+      --radius: 18px;
+      --serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: var(--sans);
+      overflow:hidden;
+
+      background:
+        radial-gradient(1200px 900px at 18% 16%, rgba(255,183,197,.18), transparent 60%),
+        radial-gradient(1100px 800px at 82% 14%, rgba(255,220,168,.12), transparent 58%),
+        radial-gradient(900px 750px at 50% 95%, rgba(139,233,255,.10), transparent 60%),
+        linear-gradient(180deg, var(--night), var(--velvet) 55%, var(--plum));
+    }
+
+    /* Subtle animated bokeh + stars */
+    .bokeh, .stars{
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+    }
+    .bokeh{filter: blur(22px); opacity:.9}
+    .stars{opacity:.65}
+
+    .app{
+      position:relative; z-index:1;
+      height:100%;
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+    }
+
+    .card{
+      width:min(1040px, 100%);
+      min-height: min(680px, 90vh);
+      border-radius: 24px;
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(255,183,197,.16), transparent 55%),
+        radial-gradient(900px 500px at 92% 20%, rgba(255,220,168,.12), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    }
+
+    .title{display:flex; flex-direction:column; gap:2px;}
+    .title b{
+      font-family: var(--serif);
+      font-size:22px;
+      letter-spacing:.2px;
+      font-weight:700;
+    }
+    .title small{
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.18px;
+      text-transform: uppercase;
+    }
+
+    .pillrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .pill{
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      padding:8px 10px;
+      border-radius:999px;
+      display:flex; align-items:center; gap:8px;
+      user-select:none;
+    }
+    .pill button{
+      all:unset;
+      cursor:pointer;
+      color:var(--ink);
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      transition: background .2s ease, transform .08s ease;
+    }
+    .pill button:hover{background: rgba(255,255,255,.12)}
+    .pill button:active{transform: translateY(1px)}
+
+    .content{height:calc(100% - 60px); display:flex;}
+    .left{
+      width:min(340px, 38%);
+      border-right:1px solid rgba(255,255,255,.10);
+      padding:18px;
+      background:
+        radial-gradient(700px 480px at 10% 0%, rgba(255,183,197,.14), transparent 55%),
+        radial-gradient(700px 480px at 92% 38%, rgba(255,220,168,.10), transparent 55%);
+    }
+    .right{flex:1; padding:18px; overflow:auto;}
+
+    .menu h2{
+      margin:0 0 8px 0;
+      font-family: var(--serif);
+      font-size:26px;
+      letter-spacing:.2px;
+    }
+    .menu p{
+      margin:0 0 14px 0;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .btn{
+      width:100%;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:14px 14px;
+      margin:10px 0;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color:var(--ink);
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,220,168,.28);
+    }
+    .btn:active{transform: translateY(1px)}
+    .btn[disabled]{opacity:.45; cursor:not-allowed}
+
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.12);
+      color:var(--muted);
+    }
+    .badge.ok{color:#c8ffd3; border-color:rgba(200,255,211,.26); background:rgba(20,80,40,.18)}
+    .badge.lock{color:#ffd7d7; border-color:rgba(255,110,138,.26); background:rgba(80,20,40,.18)}
+
+    .panel{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(800px 500px at 12% 0%, rgba(255,183,197,.10), transparent 55%),
+        radial-gradient(800px 500px at 90% 20%, rgba(255,220,168,.08), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .panel > *{position:relative}
+    .panel h3{
+      margin:0 0 8px 0;
+      font-family: var(--serif);
+      font-size:24px;
+      letter-spacing:.2px;
+    }
+    .panel p{margin:0 0 10px 0; color:var(--muted); line-height:1.6}
+
+    .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+    .mini{font-size:12px; color:var(--muted)}
+    .hr{height:1px; background: rgba(255,255,255,.10); margin:14px 0}
+
+    .input{
+      width:100%;
+      padding:14px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:var(--ink);
+      outline:none;
+      font-size:16px;
+    }
+    .input:focus{
+      border-color: rgba(255,220,168,.55);
+      box-shadow: 0 0 0 3px rgba(255,220,168,.14);
+    }
+
+    .cta{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(90deg, rgba(255,220,168,.22), rgba(255,183,197,.16));
+      cursor:pointer;
+      user-select:none;
+      transition: transform .08s ease, filter .2s ease;
+    }
+    .cta:hover{filter:brightness(1.06)}
+    .cta:active{transform: translateY(1px)}
+
+    .fadeIn{animation: fadeIn .35s ease both}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
+    /* Lock overlay */
+    .overlay{
+      position:absolute; inset:0; z-index:20;
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+      background:
+        radial-gradient(1200px 700px at 25% 15%, rgba(255,183,197,.22), transparent 58%),
+        radial-gradient(1100px 700px at 78% 12%, rgba(255,220,168,.16), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.50));
+      backdrop-filter: blur(16px);
+    }
+    .lockbox{
+      width:min(560px, 100%);
+      border-radius: 24px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .lockbox::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 450px at 20% 0%, rgba(255,183,197,.18), transparent 55%),
+                  radial-gradient(700px 450px at 85% 20%, rgba(255,220,168,.14), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .lockbox > *{position:relative}
+    .lockbox h1{
+      margin:0 0 6px 0;
+      font-family: var(--serif);
+      font-size:26px;
+      letter-spacing:.2px;
+    }
+    .lockbox p{margin:0 0 12px 0; color:var(--muted); line-height:1.5}
+    .hint{font-size:12px; color:var(--muted)}
+    .danger{color:#ffd7d7}
+    .shake{animation: shake .35s ease}
+    @keyframes shake{
+      0%,100%{transform:translateX(0)}
+      20%{transform:translateX(-8px)}
+      40%{transform:translateX(8px)}
+      60%{transform:translateX(-6px)}
+      80%{transform:translateX(6px)}
+    }
+
+    /* quiz */
+    .choices{display:grid; gap:10px}
+    .choice{
+      text-align:left;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .choice:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,220,168,.26);
+    }
+    .prog{height:10px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden}
+    .bar{height:100%; width:0%; background: linear-gradient(90deg, rgba(255,220,168,.75), rgba(255,183,197,.70))}
+
+    /* maze */
+    .mazeWrap{display:flex; flex-direction:column; gap:12px}
+    canvas.maze{
+      width:100%;
+      max-width:560px;
+      aspect-ratio: 1 / 1;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+    }
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .dpad{display:grid; grid-template-columns: 54px 54px 54px; grid-template-rows: 54px 54px 54px; gap:8px}
+    .dpad button, .smallbtn{
+      width:54px; height:54px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color:var(--ink); cursor:pointer;
+      font-size:18px;
+      transition: background .2s ease, transform .08s ease;
+    }
+    .dpad button:hover, .smallbtn:hover{background: rgba(255,255,255,.12)}
+    .dpad button:active, .smallbtn:active{transform: translateY(1px)}
+    .smallbtn{width:auto; padding:0 12px; height:44px; font-size:14px}
+    .kbd{color:var(--muted); font-size:12px}
+
+    /* cards grid (letters + gifts) */
+    .grid{display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));}
+    .tile{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      min-height:120px;
+      transition: background .2s ease, border-color .2s ease, transform .08s ease;
+    }
+    .tile:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,220,168,.28);
+    }
+    .tile:active{transform: translateY(1px)}
+    .tile b{display:block; margin-top:8px; font-family:var(--serif); font-size:18px}
+    .spark{
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,220,168,.22), transparent 45%),
+        radial-gradient(circle at 70% 40%, rgba(255,183,197,.18), transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(139,233,255,.12), transparent 55%);
+      opacity:0; transition: opacity .25s ease;
+    }
+    .tile:hover .spark{opacity:1}
+
+    /* letter modal */
+    .modal{
+      position:absolute; inset:0; z-index:30;
+      display:none; align-items:center; justify-content:center;
+      padding:18px;
+      background: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.55));
+      backdrop-filter: blur(14px);
+    }
+    .modal.show{display:flex}
+    .letterFrame{
+      width:min(760px, 100%);
+      border-radius: 24px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(900px 540px at 12% 0%, rgba(255,183,197,.16), transparent 58%),
+        radial-gradient(900px 540px at 90% 22%, rgba(255,220,168,.12), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .letterTop{
+      padding:16px 18px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    }
+    .letterTop h4{
+      margin:0;
+      font-family:var(--serif);
+      font-size:22px;
+      letter-spacing:.2px;
+    }
+    .letterTop .sub{
+      margin-top:4px;
+      font-size:12px;
+      letter-spacing:.18px;
+      text-transform: uppercase;
+      color:rgba(255,255,255,.72);
+    }
+    .closeX{
+      all:unset; cursor:pointer;
+      width:40px; height:40px;
+      display:grid; place-items:center;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition: background .2s ease, transform .08s ease;
+    }
+    .closeX:hover{background: rgba(255,255,255,.10)}
+    .closeX:active{transform: translateY(1px)}
+
+    .paper{padding:18px; background: rgba(0,0,0,.12); border-top:1px solid rgba(255,255,255,.06);}
+    .paperInner{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(1100px 700px at 20% 0%, rgba(255,220,168,.10), transparent 55%),
+        linear-gradient(180deg, rgba(10,10,18,.75), rgba(10,10,18,.55));
+      padding:18px;
+    }
+    .letterBody{
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.65;
+      color: rgba(255,255,255,.94);
+      letter-spacing: .2px;
+      white-space: pre-wrap;
+      min-height: 220px;
+    }
+    .letterActions{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-top:14px;
+    }
+    .ghost{
+      all:unset;
+      cursor:pointer;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition: background .2s ease, transform .08s ease;
+    }
+    .ghost:hover{background: rgba(255,255,255,.10)}
+    .ghost:active{transform: translateY(1px)}
+    .hintline{margin-left:auto; font-size:12px; color:rgba(255,255,255,.70);}
+
+    /* confetti */
+    .confetti{position:fixed; inset:0; pointer-events:none; z-index:50; display:none;}
+  </style>
+</head>
+<body>
+  <canvas class="bokeh" id="bokeh"></canvas>
+  <canvas class="stars" id="stars"></canvas>
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <div class="app">
+    <div class="card" id="card">
+
+      <div class="topbar">
+        <div class="title">
+          <b>Happy 22nd Birthday, Piku 🎂</b>
+          <small id="subtitle">A private world made only for you.</small>
+        </div>
+
+        <div class="pillrow">
+          <div class="pill">Progress: <span id="progressText">Locked</span></div>
+          <div class="pill">
+            Ambience
+            <button id="ambBtn" type="button">Off</button>
+          </div>
+          <div class="pill">
+            Reset
+            <button id="resetBtn" type="button">↺</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="left">
+          <div class="menu">
+            <h2>Hub</h2>
+            <p>
+              Start the birthday game, or open the letters whenever you need them.
+              Some doors open only after you earn them.
+            </p>
+
+            <button class="btn" id="btnGame">
+              <span>🎮 Start Birthday Game</span>
+              <span class="badge" id="badgeGame">Locked</span>
+            </button>
+
+            <button class="btn" id="btnLetters" disabled>
+              <span>💌 Open When… Letters</span>
+              <span class="badge lock" id="badgeLetters">Locked</span>
+            </button>
+
+            <button class="btn" id="btnGifts" disabled>
+              <span>🎁 Virtual Gifts</span>
+              <span class="badge lock" id="badgeGifts">Locked</span>
+            </button>
+
+            <div class="hr"></div>
+            <div class="mini">
+              Mazes: use <b>WASD</b> / arrow keys on laptop, or the buttons on phone.
+            </div>
+          </div>
+        </div>
+
+        <div class="right" id="screen"></div>
+      </div>
+
+      <!-- LETTER MODAL -->
+      <div class="modal" id="letterModal" aria-hidden="true">
+        <div class="letterFrame">
+          <div class="letterTop">
+            <div>
+              <h4 id="letterTitle">Open When…</h4>
+              <div class="sub" id="letterSub">take your time</div>
+            </div>
+            <button class="closeX" id="closeLetter" title="Close">✕</button>
+          </div>
+
+          <div class="paper">
+            <div class="paperInner">
+              <div class="letterBody" id="letterBody"> </div>
+
+              <div class="letterActions">
+                <div class="cta" id="letterNextBtn">Begin reading</div>
+                <button class="ghost" id="letterRestartBtn">Restart</button>
+                <span class="hintline" id="letterHint">No rush. Read slowly.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOCK OVERLAY (PASSWORD GATE) -->
+      <div class="overlay" id="lockOverlay">
+        <div class="lockbox" id="lockBox">
+          <h1>🔐 Enter the code</h1>
+          <p>
+            This space is protected.
+            <br><span class="mini">Hint: our anniversary day.</span>
+          </p>
+          <input class="input" id="codeInput" placeholder="Try: 0624  •  06/24  •  June 24" autocomplete="off" />
+          <div class="row" style="margin-top:12px">
+            <div class="cta" id="unlockBtn">Unlock</div>
+            <span class="hint" id="lockMsg"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<script>
+/* =========================
+   QUIZ (EDIT THESE)
+   ========================= */
+const QUIZ = [
+  {
+    q: "Where did we have our first real conversation?",
+    a: ["In class", "On call", "At a café", "At a party"],
+    correct: 2,
+    good: "Of course you remember, Piku.",
+    bad: "It’s okay, Piku. I remember for us."
+  },
+  {
+    q: "What is my favourite small thing you do?",
+    a: ["You check in", "You make me laugh", "You listen quietly", "You hype me up"],
+    correct: 2,
+    good: "Yes. That one matters.",
+    bad: "Still cute. But not the one."
+  },
+  {
+    q: "What would I choose for a perfect night with you?",
+    a: ["Going out fancy", "Staying in + movie", "Long drive + snacks", "All of the above"],
+    correct: 4,
+    good: "Correct. Any version of you is the plan.",
+    bad: "Honestly… any version of you is the plan."
+  }
+];
+
+const LETTERS = {
+  love: {
+    title: "Open when you don’t feel loved",
+    sub: "a reminder that you are chosen",
+    text: `My love, Piku,
+
+If you are reading this, I want you to pause for a moment and breathe. I wish I were beside you right now, but since I am not, let these words hold you the way I would. You are deeply loved. Not for what you do, not for how strong you are on your best days, but for who you are on every single one, even the heavy ones.
+
+You do not have to prove anything to me. You do not have to be unbreakable or certain or perfectly okay. I see you in your effort, in your quiet resilience, in the way you keep going even when you feel tired or unsure. That alone is enough. You are enough.
+
+I love the way your mind works, the way your heart cares even when you pretend it does not, the way your presence feels like home to me. Loving you is not something I do out of habit. It is something I choose every day, with ease, with certainty, with warmth. There is nowhere else I would rather place my heart.
+
+When the world feels loud or unkind, remember that there is a place where you are safe and wanted. That place is with me. I believe in you more than you know, even in moments when you struggle to believe in yourself. Especially in those moments.
+
+You are not alone, Piku. You never have been. My love for you is steady and patient and real. It does not waver with time or distance or doubt. It stays.
+
+Come back to this whenever you need to be reminded. I am here. I love you, always.
+
+Yours.`
+  },
+
+  sad: {
+    title: "Open when you feel sad",
+    sub: "I love you so so much, and we can get through ths together",
+    text: `My love, Piku,
+
+If you are feeling sad right now, I want you to know that you do not have to push it away or make it smaller. Your sadness is allowed to exist. It does not make you weak, and it does not change the way I see you. If anything, it makes me want to hold you closer.
+
+I wish I could sit beside you in this moment and let the quiet do its work. Until then, let these words be gentle with you. You do not have to have answers. You do not have to fix anything tonight. Some feelings only ask to be felt, not solved.
+
+I know it can feel lonely when the weight settles in, like the world keeps moving while you are standing still. Please remember that even in that stillness, you are not forgotten. You matter to me in ways that are constant and sure, even when everything else feels uncertain.
+
+It is okay if all you can do right now is get through this moment. That is more than enough. Tomorrow does not need to be figured out today. You are allowed to rest in my love until the heaviness softens.
+
+I am proud of you for feeling deeply in a world that often asks people not to. I am here for you in your sadness just as much as in your joy. I love you, quietly, fiercely, and without conditions.
+
+Always yours.`
+  },
+
+  miss: {
+    title: "Open when you miss me",
+    sub: "distance is only a pause",
+    text: `My love, Piku,
+
+If you are missing me right now, I want you to know that I feel it too, even if I am not saying it out loud at the same moment. Distance has a strange way of making love ache, but it never makes it smaller. If anything, it reminds us how real it is.
+
+I know missing someone can feel heavy, like your chest is holding too much quiet. I wish I could reach through time and space and place my hand in yours, just to remind you that this separation is not a loss. It is only a pause between moments we will share again.
+
+When you miss me, remember that I am thinking of you in the smallest ways. In songs that suddenly feel familiar. In passing moments where your name settles softly in my mind. In hopes I save for the next time I see you. You are never as far from me as it may feel.
+
+This distance does not undo us. It proves us. It proves that what we have is worth longing for, worth waiting through the quiet for. Every moment apart is moving us closer to the next hello.
+
+Until then, hold this truth close. You are loved even from afar. You are missed in return. And no matter where we are, my heart knows exactly where yours is.
+
+Always yours.`
+  }
+};
+
+/* =========================
+   STATE + STORAGE
+   ========================= */
+const LS_KEY = "piku_bday_romance_v2";
+const state = loadState() || {
+  unlocked: false,
+  stage: 0, // 0=not started, 1=quiz done, 2=maze1 done, 3=maze2 done, 4=complete
+  lettersUnlocked: false,
+  giftsUnlocked: false
+};
+function loadState(){ try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch { return null; } }
+function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+function resetAll(){ localStorage.removeItem(LS_KEY); location.reload(); }
+
+/* =========================
+   UI ELEMENTS
+   ========================= */
+const lockOverlay = document.getElementById("lockOverlay");
+const lockBox = document.getElementById("lockBox");
+const codeInput = document.getElementById("codeInput");
+const unlockBtn = document.getElementById("unlockBtn");
+const lockMsg = document.getElementById("lockMsg");
+
+const screen = document.getElementById("screen");
+const subtitle = document.getElementById("subtitle");
+const progressText = document.getElementById("progressText");
+
+const btnGame = document.getElementById("btnGame");
+const btnLetters = document.getElementById("btnLetters");
+const btnGifts = document.getElementById("btnGifts");
+const badgeGame = document.getElementById("badgeGame");
+const badgeLetters = document.getElementById("badgeLetters");
+const badgeGifts = document.getElementById("badgeGifts");
+
+document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+/* =========================
+   AMBIENCE (optional)
+   ========================= */
+let ambienceOn = false;
+let ambienceOsc = null;
+const ambBtn = document.getElementById("ambBtn");
+ambBtn.addEventListener("click", () => {
+  ambienceOn = !ambienceOn;
+  ambBtn.textContent = ambienceOn ? "On" : "Off";
+  if(ambienceOn) startAmbience(); else stopAmbience();
+});
+function startAmbience(){
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AC();
+  ambienceOsc = { ctx };
+
+  const o1 = ctx.createOscillator();
+  const o2 = ctx.createOscillator();
+  const g = ctx.createGain();
+  g.gain.value = 0.025;
+
+  o1.type = "sine"; o2.type = "triangle";
+  o1.frequency.value = 110;
+  o2.frequency.value = 220;
+
+  const lfo = ctx.createOscillator();
+  const lfoGain = ctx.createGain();
+  lfo.frequency.value = 0.07;
+  lfoGain.gain.value = 16;
+  lfo.connect(lfoGain);
+  lfoGain.connect(o2.frequency);
+
+  o1.connect(g); o2.connect(g);
+  g.connect(ctx.destination);
+
+  o1.start(); o2.start(); lfo.start();
+
+  ambienceOsc.nodes = {o1,o2,lfo,g};
+}
+function stopAmbience(){
+  try{
+    if(!ambienceOsc) return;
+    const {ctx, nodes} = ambienceOsc;
+    nodes.o1.stop(); nodes.o2.stop(); nodes.lfo.stop();
+    ctx.close();
+  }catch{}
+  ambienceOsc = null;
+}
+
+/* =========================
+   BACKGROUNDS: bokeh + stars
+   ========================= */
+const bokeh = document.getElementById("bokeh");
+const bctx = bokeh.getContext("2d");
+const stars = document.getElementById("stars");
+const sctx = stars.getContext("2d");
+let blobs = [];
+let starField = [];
+
+function resizeCanvases(){
+  const dpr = devicePixelRatio;
+  bokeh.width = innerWidth * dpr;
+  bokeh.height = innerHeight * dpr;
+  stars.width = innerWidth * dpr;
+  stars.height = innerHeight * dpr;
+
+  blobs = Array.from({length: 10}, ()=>({
+    x: Math.random()*bokeh.width,
+    y: Math.random()*bokeh.height,
+    r: (Math.random()*220+180)*dpr,
+    vx: (Math.random()*0.22-0.11)*dpr,
+    vy: (Math.random()*0.18-0.09)*dpr,
+    c: Math.random()<0.5 ? "rgba(255,183,197,.18)" : "rgba(255,220,168,.14)"
+  }));
+
+  starField = [];
+  const n = Math.floor((innerWidth * innerHeight) / 14000);
+  for(let i=0;i<n;i++){
+    starField.push({
+      x: Math.random()*stars.width,
+      y: Math.random()*stars.height,
+      r: (Math.random()*1.4+0.4) * dpr,
+      a: Math.random()*0.6+0.15,
+      v: Math.random()*0.22+0.05
+    });
+  }
+}
+
+function drawBokeh(){
+  bctx.clearRect(0,0,bokeh.width,bokeh.height);
+  for(const p of blobs){
+    p.x += p.vx; p.y += p.vy;
+    if(p.x < -p.r) p.x = bokeh.width + p.r;
+    if(p.x > bokeh.width + p.r) p.x = -p.r;
+    if(p.y < -p.r) p.y = bokeh.height + p.r;
+    if(p.y > bokeh.height + p.r) p.y = -p.r;
+
+    const grd = bctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+    grd.addColorStop(0, p.c);
+    grd.addColorStop(1, "rgba(0,0,0,0)");
+    bctx.fillStyle = grd;
+    bctx.beginPath();
+    bctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    bctx.fill();
+  }
+  requestAnimationFrame(drawBokeh);
+}
+
+function drawStars(){
+  sctx.clearRect(0,0,stars.width,stars.height);
+  for(const st of starField){
+    st.y += st.v*devicePixelRatio;
+    if(st.y > stars.height) st.y = 0;
+    sctx.beginPath();
+    sctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+    sctx.fillStyle = `rgba(255,255,255,${st.a})`;
+    sctx.fill();
+  }
+  requestAnimationFrame(drawStars);
+}
+
+addEventListener("resize", resizeCanvases);
+resizeCanvases(); drawBokeh(); drawStars();
+
+/* =========================
+   LOCK SCREEN (password gate)
+   Anniversary: June 24 → accepts 0624, 06/24, June 24, etc.
+   ========================= */
+function normalizeCode(s){
+  s = (s||"").trim().toLowerCase().replace(/\s+/g," ");
+  if(s === "0624") return "0624";
+  if(/^0?6\/0?24$/.test(s)) return "0624";
+  if(s === "june 24" || s === "jun 24") return "0624";
+  if(s === "24 june" || s === "24 jun") return "0624";
+  const digits = s.replace(/\D/g,"");
+  if(digits.length >= 4){
+    const mmdd = digits.slice(0,4);
+    if(mmdd === "0624") return "0624";
+  }
+  return "";
+}
+function updateLockUI(){
+  lockOverlay.style.display = state.unlocked ? "none" : "flex";
+}
+unlockBtn.addEventListener("click", tryUnlock);
+codeInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryUnlock(); });
+
+function tryUnlock(){
+  const code = normalizeCode(codeInput.value);
+  if(code === "0624"){
+    state.unlocked = true;
+    state.lettersUnlocked = true;
+    saveState();
+    updateLockUI();
+    boot();
+  }else{
+    lockMsg.innerHTML = `<span class="danger">Not quite.</span> Think of the day we became <b>us</b>.`;
+    lockBox.classList.remove("shake"); void lockBox.offsetWidth; lockBox.classList.add("shake");
+  }
+}
+</script>
+<script>
+/* =========================
+   HUB / PROGRESS
+   ========================= */
+function updateHub(){
+  const stage = state.stage;
+
+  badgeGame.textContent = stage>=4 ? "Complete" : (stage===0 ? "Start" : `Stage ${stage}/4`);
+  badgeGame.className = "badge " + (stage>=4 ? "ok" : "");
+
+  btnLetters.disabled = !state.lettersUnlocked;
+  badgeLetters.textContent = state.lettersUnlocked ? "Open" : "Locked";
+  badgeLetters.className = "badge " + (state.lettersUnlocked ? "ok" : "lock");
+
+  btnGifts.disabled = !state.giftsUnlocked;
+  badgeGifts.textContent = state.giftsUnlocked ? "Open" : "Locked";
+  badgeGifts.className = "badge " + (state.giftsUnlocked ? "ok" : "lock");
+
+  progressText.textContent = !state.unlocked ? "Locked" : (stage>=4 ? "Complete" : `Stage ${stage}/4`);
+  subtitle.textContent = stage>=4 ? "You unlocked every door. Happy Birthday, Piku." : "A private world made only for you.";
+}
+
+function setScreen(html){
+  screen.innerHTML = `<div class="fadeIn">${html}</div>`;
+  screen.scrollTop = 0;
+}
+
+/* =========================
+   WELCOME
+   ========================= */
+window.__goGame = ()=>renderGameHome();
+window.__goLetters = ()=>renderLetters();
+window.__goGifts = ()=>renderGifts();
+
+function renderWelcome(){
+  setScreen(`
+    <div class="panel">
+      <h3>Welcome, Piku.</h3>
+      <p>
+        This is a small world I made for your <b>22nd birthday</b>.
+        You can play through the doors… or open the letters whenever you need them.
+      </p>
+      <div class="hr"></div>
+      <div class="row">
+        <div class="cta" onclick="window.__goGame()">Start the game</div>
+        <div class="cta" onclick="window.__goLetters()">Open letters</div>
+      </div>
+      <p class="mini" style="margin-top:10px;">
+        Tip: The letters are always here for you — not just today.
+      </p>
+    </div>
+  `);
+}
+
+/* =========================
+   GAME HOME + STAGES
+   ========================= */
+btnGame.addEventListener("click", ()=>renderGameHome());
+
+function renderGameHome(){
+  const stage = state.stage;
+  setScreen(`
+    <div class="panel">
+      <h3>🎮 Birthday Game</h3>
+      <p>Doors open in order. No rush.</p>
+      <div class="hr"></div>
+      <div class="row">
+        <div class="cta" onclick="window.__startNext()">Continue</div>
+        <span class="mini">Current: <b>${stage>=4 ? "Complete" : `Stage ${stage}/4`}</b></span>
+      </div>
+      <div class="hr"></div>
+      <p class="mini">Stages: Trivia → Maze 1 → Maze 2 → Final Door → Gifts</p>
+    </div>
+  `);
+}
+
+function renderFinalDoor(){
+  setScreen(`
+    <div class="panel">
+      <h3>🚪 Final Door</h3>
+      <p>
+        You made it to the last door.
+        When you open it, the gift room unlocks.
+      </p>
+      <div class="hr"></div>
+      <div class="row">
+        <div class="cta" onclick="window.__finishGame()">Open the door</div>
+      </div>
+    </div>
+  `);
+}
+
+window.__startNext = () => {
+  if(state.stage === 0) renderQuiz(0, 0);
+  else if(state.stage === 1) renderMaze(1);
+  else if(state.stage === 2) renderMaze(2);
+  else renderFinalDoor();
+};
+
+window.__finishGame = () => {
+  state.stage = 4;
+  state.giftsUnlocked = true;
+  saveState();
+  blastConfetti(1200);
+  updateHub();
+  setScreen(`
+    <div class="panel">
+      <h3>✅ Unlocked</h3>
+      <p>
+        Happy 22nd birthday, <b>Piku</b>.
+        <br>Go to the hub and open the <b>Virtual Gifts</b>.
+      </p>
+      <div class="hr"></div>
+      <div class="row">
+        <div class="cta" onclick="window.__goGifts()">Go to gifts</div>
+        <div class="cta" onclick="window.__goLetters()">Open letters</div>
+      </div>
+    </div>
+  `);
+};
+
+/* =========================
+   QUIZ
+   ========================= */
+function renderQuiz(i, score){
+  const total = QUIZ.length;
+  const pct = Math.round((i/total)*100);
+
+  if(i >= total){
+    state.stage = Math.max(state.stage, 1);
+    saveState(); updateHub();
+    setScreen(`
+      <div class="panel">
+        <h3>🧠 Trivia complete</h3>
+        <p>Score: <b>${score}/${total}</b><br>Next door: <b>Maze 1</b></p>
+        <div class="hr"></div>
+        <div class="row">
+          <div class="cta" onclick="window.__startNext()">Enter Maze 1</div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+
+  const item = QUIZ[i];
+  setScreen(`
+    <div class="panel">
+      <div class="row" style="justify-content:space-between">
+        <h3 style="margin:0">Question ${i+1} / ${total}</h3>
+        <span class="mini">Memory Sync: ${pct}%</span>
+      </div>
+      <div class="prog"><div class="bar" style="width:${pct}%"></div></div>
+      <p style="margin:10px 0 0 0"><b>${escapeHtml(item.q)}</b></p>
+      <div class="choices" style="margin-top:10px">
+        ${item.a.map((c, idx)=>`
+          <div class="choice" onclick="window.__answer(${i},${idx},${score})">${escapeHtml(c)}</div>
+        `).join("")}
+      </div>
+      <p class="mini" style="margin-top:12px;">Make these super personal for maximum impact.</p>
+    </div>
+  `);
+}
+
+window.__answer = (i, idx, score) => {
+  const item = QUIZ[i];
+  const correct = idx === item.correct;
+  const newScore = score + (correct ? 1 : 0);
+
+  setScreen(`
+    <div class="panel">
+      <h3>${correct ? "✅ Correct" : "🙂 Not quite"}</h3>
+      <p style="margin-top:8px" class="${correct ? "resultGood" : "resultBad"}">
+        ${escapeHtml(correct ? item.good : item.bad)}
+      </p>
+      <div class="hr"></div>
+      <div class="row">
+        <div class="cta" onclick="window.__nextQ(${i+1},${newScore})">Next</div>
+      </div>
+    </div>
+  `);
+};
+window.__nextQ = (i, score) => renderQuiz(i, score);
+
+/* =========================
+   MAZES (2)
+   ========================= */
+const MAZES = {
+  1: [
+    "##########",
+    "#S  #    #",
+    "# # # ## #",
+    "# #   #  #",
+    "# ### ####",
+    "#   #    #",
+    "### # ## #",
+    "#   #  # #",
+    "# ###  #E#",
+    "##########",
+  ],
+  2: [
+    "##########",
+    "#S     # #",
+    "### ## # #",
+    "#   #    #",
+    "# ### ####",
+    "# #      #",
+    "# # #### #",
+    "#   #  # #",
+    "###   #  E",
+    "##########",
+  ],
+};
+
+let mazeCtx, mazeCanvas, mazeGrid, player, cellSize;
+
+function renderMaze(n){
+  setScreen(`
+    <div class="panel mazeWrap">
+      <h3>🧩 Maze ${n}</h3>
+      <p>Find the exit. This door unlocks the next stage.</p>
+
+      <canvas class="maze" id="mazeCanvas" width="600" height="600"></canvas>
+
+      <div class="controls">
+        <div class="dpad" aria-label="Maze controls">
+          <div></div>
+          <button onclick="window.__mv(0,-1)">↑</button>
+          <div></div>
+          <button onclick="window.__mv(-1,0)">←</button>
+          <button disabled>•</button>
+          <button onclick="window.__mv(1,0)">→</button>
+          <div></div>
+          <button onclick="window.__mv(0,1)">↓</button>
+          <div></div>
+        </div>
+
+        <div style="display:grid; gap:8px;">
+          <button class="smallbtn" onclick="window.__restartMaze(${n})">Restart</button>
+          <div class="kbd">Keyboard: arrows or WASD</div>
+        </div>
+      </div>
+
+      <div class="mini">Tip: It’s meant to feel satisfying, not stressful.</div>
+    </div>
+  `);
+
+  initMaze(n);
+}
+
+window.__restartMaze = (n)=>initMaze(n);
+
+function initMaze(n){
+  mazeCanvas = document.getElementById("mazeCanvas");
+  mazeCtx = mazeCanvas.getContext("2d");
+
+  const lines = MAZES[n].slice();
+  mazeGrid = lines.map(r=>r.split(""));
+
+  let sx=0, sy=0;
+  for(let y=0;y<mazeGrid.length;y++){
+    for(let x=0;x<mazeGrid[y].length;x++){
+      if(mazeGrid[y][x]==="S"){ sx=x; sy=y; }
+    }
+  }
+
+  player = {x:sx, y:sy, n};
+  drawMaze();
+}
+
+function drawMaze(){
+  const w = mazeGrid[0].length;
+  const h = mazeGrid.length;
+
+  cellSize = Math.floor(600 / Math.max(w,h));
+  mazeCtx.clearRect(0,0,600,600);
+
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const ch = mazeGrid[y][x];
+      const px = x*cellSize, py=y*cellSize;
+
+      if(ch==="#"){
+        fillRect(px,py,cellSize,cellSize,"rgba(255,255,255,.10)");
+      }else{
+        fillRect(px,py,cellSize,cellSize,"rgba(0,0,0,.16)");
+      }
+
+      if(ch==="E"){
+        fillRect(px+3,py+3,cellSize-6,cellSize-6,"rgba(255,220,168,.30)");
+      }
+      if(ch==="S"){
+        fillRect(px+3,py+3,cellSize-6,cellSize-6,"rgba(255,183,197,.22)");
+      }
+    }
+  }
+
+  const px = player.x*cellSize, py = player.y*cellSize;
+  fillRect(px+6,py+6,cellSize-12,cellSize-12,"rgba(255,255,255,.82)");
+}
+
+function fillRect(x,y,w,h,style){
+  mazeCtx.fillStyle = style;
+  mazeCtx.fillRect(x,y,w,h);
+}
+
+function tryMove(dx,dy){
+  if(!mazeGrid) return;
+  const nx = player.x + dx;
+  const ny = player.y + dy;
+  const row = mazeGrid[ny];
+  if(!row) return;
+  const ch = row[nx];
+  if(!ch || ch==="#") return;
+
+  player.x = nx; player.y = ny;
+  drawMaze();
+
+  if(ch==="E"){
+    onMazeComplete(player.n);
+  }
+}
+
+window.__mv = (dx,dy)=>tryMove(dx,dy);
+
+addEventListener("keydown", (e)=>{
+  if(!mazeGrid) return;
+  const k = e.key.toLowerCase();
+  if(k==="arrowup"||k==="w") tryMove(0,-1);
+  if(k==="arrowdown"||k==="s") tryMove(0,1);
+  if(k==="arrowleft"||k==="a") tryMove(-1,0);
+  if(k==="arrowright"||k==="d") tryMove(1,0);
+});
+
+function onMazeComplete(n){
+  blastConfetti(650);
+
+  if(n===1) state.stage = Math.max(state.stage, 2);
+  if(n===2) state.stage = Math.max(state.stage, 3);
+
+  saveState(); updateHub();
+  mazeGrid = null;
+
+  setScreen(`
+    <div class="panel">
+      <h3>✅ Door opened</h3>
+      <p>Maze ${n} complete. The next stage is unlocked.</p>
+      <div class="hr"></div>
+      <div class="row">
+        <div class="cta" onclick="window.__startNext()">Continue</div>
+      </div>
+    </div>
+  `);
+}
+
+/* =========================
+   HELPERS
+   ========================= */
+function escapeHtml(s){
+  return (s??"").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+</script>
+<script>
+/* =========================
+   LETTERS (screen + modal + paragraph reveal)
+   ========================= */
+const letterModal = document.getElementById("letterModal");
+const closeLetter = document.getElementById("closeLetter");
+const letterTitle = document.getElementById("letterTitle");
+const letterSub = document.getElementById("letterSub");
+const letterBody = document.getElementById("letterBody");
+const letterNextBtn = document.getElementById("letterNextBtn");
+const letterRestartBtn = document.getElementById("letterRestartBtn");
+const letterHint = document.getElementById("letterHint");
+
+let currentLetterKey = null;
+let letterParts = [];
+let letterIndex = 0;
+
+closeLetter.addEventListener("click", hideLetter);
+letterModal.addEventListener("click", (e)=>{ if(e.target === letterModal) hideLetter(); });
+letterRestartBtn.addEventListener("click", ()=>startLetter(currentLetterKey, true));
+letterNextBtn.addEventListener("click", ()=>advanceLetter());
+
+function splitParagraphs(text){
+  return text.trim().split(/\n\s*\n/g).map(p=>p.trim());
+}
+
+function showLetter(key){
+  currentLetterKey = key;
+  startLetter(key, true);
+  letterModal.classList.add("show");
+  letterModal.setAttribute("aria-hidden","false");
+}
+
+function hideLetter(){
+  letterModal.classList.remove("show");
+  letterModal.setAttribute("aria-hidden","true");
+  currentLetterKey = null;
+}
+
+function startLetter(key){
+  const L = LETTERS[key];
+  letterTitle.textContent = L.title;
+  letterSub.textContent = L.sub;
+
+  letterParts = splitParagraphs(L.text);
+  letterIndex = 0;
+
+  letterBody.textContent = "";
+  letterNextBtn.textContent = "Begin reading";
+  letterHint.textContent = "No rush. Read slowly.";
+}
+
+function advanceLetter(){
+  if(!currentLetterKey) return;
+
+  if(letterIndex === 0 && letterBody.textContent.trim()===""){
+    letterNextBtn.textContent = "Continue";
+  }
+
+  if(letterIndex < letterParts.length){
+    const add = (letterBody.textContent.trim()==="" ? "" : "\n\n") + letterParts[letterIndex];
+    letterBody.textContent += add;
+    letterIndex++;
+
+    if(letterIndex >= letterParts.length){
+      letterNextBtn.textContent = "Close";
+      letterHint.textContent = "You can return here anytime, Piku.";
+    }
+  }else{
+    hideLetter();
+  }
+}
+
+function renderLetters(){
+  setScreen(`
+    <div class="panel">
+      <h3>💌 Open When…</h3>
+      <p>
+        These letters are for the days you need me.
+        Take your time. Let the words sit with you.
+      </p>
+      <div class="hr"></div>
+
+      <div class="grid">
+        ${letterTile("love","❤️","Open when you don’t feel loved")}
+        ${letterTile("miss","💭","Open when you miss me")}
+        ${letterTile("sad","🖤","Open when you feel sad")}
+      </div>
+
+      <div class="hr"></div>
+      <p class="mini">Tip: These stay unlocked after you enter the anniversary code once.</p>
+    </div>
+  `);
+}
+
+function letterTile(key, icon, title){
+  return `
+    <div class="tile" onclick="window.__openLetter('${key}')">
+      <div class="spark"></div>
+      <div style="font-size:28px">${icon}</div>
+      <b>${escapeHtml(title)}</b>
+      <div class="mini">Read slowly. Come back anytime.</div>
+    </div>
+  `;
+}
+
+window.__openLetter = (key)=>showLetter(key);
+
+/* =========================
+   GIFTS (no secret option)
+   ========================= */
+btnGifts.addEventListener("click", ()=>renderGifts());
+btnLetters.addEventListener("click", ()=>renderLetters());
+
+function renderGifts(){
+  if(!state.giftsUnlocked){
+    setScreen(`
+      <div class="panel">
+        <h3>🎁 Virtual Gifts</h3>
+        <p>This room is locked. Finish the Birthday Game to open it.</p>
+        <div class="hr"></div>
+        <div class="row">
+          <div class="cta" onclick="window.__goGame()">Go to game</div>
+        </div>
+      </div>
+    `);
+    return;
+  }
+
+  setScreen(`
+    <div class="panel">
+      <h3>🎁 Gifts for Piku</h3>
+      <p>Click a gift to receive it.</p>
+      <div class="hr"></div>
+
+      <div class="grid">
+        ${giftTile("🌸","Flowers","A soft reminder: you’re loved.", "flowers")}
+        ${giftTile("🎂","Cake","Make a wish. I already made mine.", "cake")}
+        ${giftTile("🎮","PS5","Because you deserve joy — unapologetically.", "ps5")}
+      </div>
+
+      <div class="hr"></div>
+      <div class="panel" id="giftMsg" style="background:rgba(0,0,0,.10);">
+        <p class="mini" style="margin:0">Click a gift to see it appear here.</p>
+      </div>
+    </div>
+  `);
+}
+
+function giftTile(icon, name, desc, key){
+  return `
+    <div class="tile" onclick="window.__openGift('${key}')">
+      <div class="spark"></div>
+      <div style="font-size:28px">${icon}</div>
+      <b>${escapeHtml(name)}</b>
+      <div class="mini">${escapeHtml(desc)}</div>
+    </div>
+  `;
+}
+
+window.__openGift = (key)=>{
+  const box = document.getElementById("giftMsg");
+  if(!box) return;
+
+  blastConfetti(620);
+
+  const map = {
+    flowers: "🌸 A bouquet for you, Piku.\n\nFor the love that grows quietly — even on the hardest days.",
+    cake: "🎂 Cake delivered.\n\nMake a wish, Piku. If you don’t know what to wish for, wish for peace — I’m wishing it for you too.",
+    ps5: "🎮 PS5 unlocked (virtually 😭).\n\nOne day: a real game night, snacks, and you winning on purpose."
+  };
+
+  box.innerHTML = `<div class="fadeIn"><p style="white-space:pre-wrap; margin:0">${escapeHtml(map[key]||"🎁")}</p></div>`;
+};
+</script>
+<script>
+/* =========================
+   CONFETTI
+   ========================= */
+const conf = document.getElementById("confetti");
+const cctx = conf.getContext("2d");
+let confettiAnimating = false;
+let confettiPieces = [];
+
+function blastConfetti(ms=900){
+  conf.style.display = "block";
+  conf.width = window.innerWidth * devicePixelRatio;
+  conf.height = window.innerHeight * devicePixelRatio;
+
+  const n = 140;
+  confettiPieces = Array.from({length:n}, ()=>({
+    x: Math.random()*conf.width,
+    y: -Math.random()*conf.height*0.25,
+    vx: (Math.random()*2-1)*devicePixelRatio*2.0,
+    vy: (Math.random()*2+2)*devicePixelRatio*2.0,
+    r: (Math.random()*6+3)*devicePixelRatio,
+    a: Math.random()*Math.PI*2,
+    va: (Math.random()*0.2-0.1),
+  }));
+
+  const start = performance.now();
+  if(confettiAnimating) return;
+  confettiAnimating = true;
+
+  requestAnimationFrame(function tick(t){
+    cctx.clearRect(0,0,conf.width,conf.height);
+
+    for(const p of confettiPieces){
+      p.x += p.vx; p.y += p.vy; p.a += p.va;
+      p.vy += 0.03*devicePixelRatio;
+
+      cctx.save();
+      cctx.translate(p.x,p.y);
+      cctx.rotate(p.a);
+      cctx.fillStyle = "rgba(255,255,255,.72)";
+      cctx.fillRect(-p.r/2, -p.r/2, p.r, p.r);
+      cctx.restore();
+    }
+
+    if(t - start < ms){
+      requestAnimationFrame(tick);
+    }else{
+      cctx.clearRect(0,0,conf.width,conf.height);
+      conf.style.display = "none";
+      confettiAnimating = false;
+    }
+  });
+}
+
+/* =========================
+   BOOT / INIT
+   ========================= */
+btnGame.disabled = !state.unlocked;
+
+function renderGameOrContinueHint(){
+  if(!state.unlocked){
+    setScreen(`<div class="panel"><h3>Locked</h3><p>Enter the code to begin.</p></div>`);
+    return;
+  }
+  renderWelcome();
+}
+
+function boot(){
+  updateLockUI();
+  updateHub();
+  renderGameOrContinueHint();
+}
+
+function init(){
+  // If already unlocked on this device, hide lock immediately
+  if(state.unlocked){
+    lockOverlay.style.display = "none";
+  }
+  boot();
+}
+
+init();
+</script>
+
+</body>
+</html>
