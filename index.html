@@ -31,10 +31,45 @@
       --radius: 18px;
       --serif: "Cormorant Garamond", ui-serif, Georgia, serif;
       --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      /* === LETTER SCROLLBAR STYLE === */
-.letterBody::-webkit-scrollbar{
-  width: 6px;
+      /* === FORCE LETTER SCROLL (flexbox fix) === */
+
+/* The modal frame is a flex column; allow children to shrink */
+.letterFrame{
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  min-height: 0; /* KEY */
 }
+
+/* This is the flex child that contains the scrolling area */
+.paper{
+  flex: 1 1 auto;
+  min-height: 0; /* KEY */
+  overflow: visible; /* don't clip child scrollbar */
+}
+
+/* Inner wrapper also needs to allow shrinking */
+.paperInner{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* KEY */
+}
+
+/* This is the actual scrolling area */
+.letterBody{
+  flex: 1 1 auto;
+  min-height: 0;            /* KEY */
+  overflow-y: auto;         /* scrolling */
+  -webkit-overflow-scrolling: touch; /* iPhone smooth scroll */
+  padding-right: 14px;
+
+  /* Force a visible scrollbar (desktop) */
+  scrollbar-gutter: stable;
+}
+
+/* Always show scrollbar (Chrome/Safari/Edge) */
+.letterBody::-webkit-scrollbar{ width: 6px; }
 .letterBody::-webkit-scrollbar-track{
   background: rgba(255,255,255,.06);
   border-radius: 10px;
@@ -1256,18 +1291,22 @@ Always yours.`
     letterRestartBtn.addEventListener("click", ()=>{ letterBody.scrollTop = 0; });
 
     function showLetter(key){
-      const L = LETTERS[key];
-      letterTitle.textContent = L.title;
-      letterSub.textContent = L.sub;
+  const L = LETTERS[key];
+  letterTitle.textContent = L.title;
+  letterSub.textContent = L.sub;
 
-      // FULL letter instantly (no paragraph-by-paragraph reveal)
-      letterBody.textContent = L.text;
-      letterBody.scrollTop = 0;
+  // FULL letter instantly (no paragraph-by-paragraph reveal)
+  letterBody.textContent = L.text;
 
-      letterHint.textContent = "No rush. Scroll slowly.";
-      letterModal.classList.add("show");
-      letterModal.setAttribute("aria-hidden","false");
-    }
+  /* 🔽 ADD THIS LINE — THIS IS THE FIX */
+  letterBody.style.maxHeight = "55vh";
+
+  letterBody.scrollTop = 0;
+
+  letterHint.textContent = "No rush. Scroll slowly.";
+  letterModal.classList.add("show");
+  letterModal.setAttribute("aria-hidden","false");
+}
 
     function hideLetter(){
       letterModal.classList.remove("show");
