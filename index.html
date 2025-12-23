@@ -739,6 +739,39 @@ function closeLetter() {
     // 4. Hide the modal to exit
     document.getElementById('letterModal').style.display = 'none';
 }
+  /* 1. The container for the whole letter (the box itself) */
+.letter-box {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    margin: 5% auto;
+    border-radius: 10px;
+
+    /* --- THESE LINES ENFORCE THE FIXED SIZE --- */
+    max-height: 90vh; /* Limits the box height to 90% of the screen */
+    display: flex;
+    flex-direction: column; 
+    /* The padding must be applied here or on the contents */
+    padding: 20px; 
+}
+
+/* 2. The area that holds the actual text */
+.letter-scroll-area {
+    /* flex-grow: 1 ensures it occupies all remaining height */
+    flex-grow: 1; 
+    
+    /* overflow-y: auto makes it scroll internally when needed */
+    overflow-y: auto; 
+    
+    /* Ensure text doesn't stick to the side when scrolling */
+    padding-right: 10px; 
+}
+
+/* Optional: Ensure the header is fixed in height */
+.letter-header {
+    flex-shrink: 0; /* Prevents the header from shrinking */
+    /* ... other styles for button and titles ... */
+}
 /* =========================
    STATE + STORAGE
    ========================= */
