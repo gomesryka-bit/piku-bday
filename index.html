@@ -367,82 +367,128 @@
       backdrop-filter: blur(14px);
     }
     .modal.show{display:flex}
-    .letterFrame{
-      width:min(760px, 100%);
-      border-radius: 24px;
-      border:1px solid rgba(255,255,255,.16);
-      background:
+  /* ---------------------------------------------------- */
+/* --- Letter Frame: THE MAIN CONTAINER (FIXED SIZE) --- */
+/* ---------------------------------------------------- */
+.letterFrame{
+    width:min(760px, 100%);
+    border-radius: 24px;
+    border:1px solid rgba(255,255,255,.16);
+    background:
         radial-gradient(900px 540px at 12% 0%, rgba(255,183,197,.16), transparent 58%),
         radial-gradient(900px 540px at 90% 22%, rgba(255,220,168,.12), transparent 58%),
         linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
-    .letterTop{
-      padding:16px 18px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    }
-    .letterTop h4{
-      margin:0;
-      font-family:var(--serif);
-      font-size:22px;
-      letter-spacing:.2px;
-    }
-    .letterTop .sub{
-      margin-top:4px;
-      font-size:12px;
-      letter-spacing:.18px;
-      text-transform: uppercase;
-      color:rgba(255,255,255,.72);
-    }
-    .closeX{
-      all:unset; cursor:pointer;
-      width:40px; height:40px;
-      display:grid; place-items:center;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      transition: background .2s ease, transform .08s ease;
-    }
-    .closeX:hover{background: rgba(255,255,255,.10)}
-    .closeX:active{transform: translateY(1px)}
+    box-shadow: var(--shadow);
+    overflow:hidden;
+    position:relative;
+    
+    /* === ADD THESE LINES TO SET A MAX HEIGHT === */
+    max-height: 90vh; /* Set the entire box to a max of 90% of screen height */
+    display: flex; /* Enable flexible layout */
+    flex-direction: column; /* Stack children vertically (header then body) */
+}
 
-    .paper{padding:18px; background: rgba(0,0,0,.12); border-top:1px solid rgba(255,255,255,.06);}
-    .paperInner{
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.12);
-      background:
+/* ---------------------------------------------------- */
+/* --- Letter Top: THE HEADER (STATIC) --- */
+/* ---------------------------------------------------- */
+.letterTop{
+    padding:16px 18px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+    display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    
+    /* Ensure the header takes only the space it needs */
+    flex-shrink: 0; 
+}
+.letterTop h4{
+    margin:0;
+    font-family:var(--serif);
+    font-size:22px;
+    letter-spacing:.2px;
+}
+.letterTop .sub{
+    margin-top:4px;
+    font-size:12px;
+    letter-spacing:.18px;
+    text-transform: uppercase;
+    color:rgba(255,255,255,.72);
+}
+/* ... (closeX, ghost, hintline styles here) ... */
+.closeX{
+    all:unset; cursor:pointer;
+    width:40px; height:40px;
+    display:grid; place-items:center;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    transition: background .2s ease, transform .08s ease;
+}
+.closeX:hover{background: rgba(255,255,255,.10)}
+.closeX:active{transform: translateY(1px)}
+.ghost{
+    all:unset;
+    cursor:pointer;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    transition: background .2s ease, transform .08s ease;
+}
+.ghost:hover{background: rgba(255,255,255,.10)}
+.ghost:active{transform: translateY(1px)}
+.hintline{margin-left:auto; font-size:12px; color:rgba(255,255,255,.70);}
+
+/* ---------------------------------------------------- */
+/* --- Paper Wrappers: ENSURE THEY FILL REMAINING SPACE --- */
+/* ---------------------------------------------------- */
+.paper{
+    padding:18px; 
+    background: rgba(0,0,0,.12); 
+    border-top:1px solid rgba(255,255,255,.06);
+    
+    /* === ADD THESE LINES === */
+    flex-grow: 1; /* Allows this wrapper to take up all vertical space */
+    overflow: hidden; /* Important: Hides internal scrollbar of the parent */
+}
+.paperInner{
+    border-radius: 18px;
+    border:1px solid rgba(255,255,255,.12);
+    background:
         radial-gradient(1100px 700px at 20% 0%, rgba(255,220,168,.10), transparent 55%),
         linear-gradient(180deg, rgba(10,10,18,.75), rgba(10,10,18,.55));
-      padding:18px;
-    }
-    .letterBody{
-      font-family: var(--serif);
-      font-size: 20px;
-      line-height: 1.65;
-      color: rgba(255,255,255,.94);
-      letter-spacing: .2px;
-      white-space: pre-wrap;
-      min-height: 220px;
-    }
-    .letterActions{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      margin-top:14px;
-    }
-    .ghost{
-      all:unset;
-      cursor:pointer;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      transition: background .2s ease, transform .08s ease;
-    }
-    .ghost:hover{background: rgba(255,255,255,.10)}
-    .ghost:active{transform: translateY(1px)}
-    .hintline{margin-left:auto; font-size:12px; color:rgba(255,255,255,.70);}
+    padding:18px;
+    
+    /* === ADD THIS LINE === */
+    height: 100%; /* Ensure it occupies the full height of the .paper parent */
+    display: flex; /* Helps manage the .letterBody's height */
+    flex-direction: column;
+}
+
+/* ---------------------------------------------------- */
+/* --- Letter Body: THE SCROLLING TEXT AREA (THE FIX) --- */
+/* ---------------------------------------------------- */
+.letterBody{
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.65;
+    color: rgba(255,255,255,.94);
+    letter-spacing: .2px;
+    white-space: pre-wrap;
+    
+    /* === REMOVE THE LINE THAT CAUSES GROWTH === */
+    /* REMOVED: min-height: 220px; */ 
+
+    /* === ADD THESE LINES FOR INTERNAL SCROLLING === */
+    flex-grow: 1; /* Fills all space inside .paperInner */
+    overflow-y: auto; /* THE FIX: Enables vertical scrolling */
+    padding-right: 15px; /* Ensures text doesn't hide behind the scrollbar */
+}
+.letterActions{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    margin-top:14px;
+    
+    /* Ensure action buttons are visible and don't scroll away */
+    flex-shrink: 0; 
+}
 
     /* confetti */
     .confetti{position:fixed; inset:0; pointer-events:none; z-index:50; display:none;}
