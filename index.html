@@ -1,373 +1,374 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Piku — Level 22</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Piku — Level 22</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --ink: rgba(255,255,255,.93);
-      --muted: rgba(255,255,255,.72);
+  <style>
+    :root{
+      --ink: rgba(255,255,255,.93);
+      --muted: rgba(255,255,255,.72);
 
-      /* romantic palette */
-      --night:#070611;
-      --velvet:#130b25;
-      --plum:#26103f;
-      --rose:#ffb7c5;
-      --rose2:#ffd1a8;
-      --champ:#ffdca8;
-      --ice:#8be9ff;
+      /* romantic palette */
+      --night:#070611;
+      --velvet:#130b25;
+      --plum:#26103f;
+      --rose:#ffb7c5;
+      --rose2:#ffd1a8;
+      --champ:#ffdca8;
+      --ice:#8be9ff;
 
-      --glass: rgba(255,255,255,.08);
-      --glass2: rgba(255,255,255,.14);
-      --stroke: rgba(255,255,255,.14);
-      --shadow: 0 24px 80px rgba(0,0,0,.55);
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(255,255,255,.14);
+      --stroke: rgba(255,255,255,.14);
+      --shadow: 0 24px 80px rgba(0,0,0,.55);
 
-      --radius: 18px;
-      --serif: "Cormorant Garamond", ui-serif, Georgia, serif;
-      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-    }
+      --radius: 18px;
+      --serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family: var(--sans);
-      overflow:hidden;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: var(--sans);
+      overflow:hidden;
 
-      background:
-        radial-gradient(1200px 900px at 18% 16%, rgba(255,183,197,.18), transparent 60%),
-        radial-gradient(1100px 800px at 82% 14%, rgba(255,220,168,.12), transparent 58%),
-        radial-gradient(900px 750px at 50% 95%, rgba(139,233,255,.10), transparent 60%),
-        linear-gradient(180deg, var(--night), var(--velvet) 55%, var(--plum));
-    }
+      background:
+        radial-gradient(1200px 900px at 18% 16%, rgba(255,183,197,.18), transparent 60%),
+        radial-gradient(1100px 800px at 82% 14%, rgba(255,220,168,.12), transparent 58%),
+        radial-gradient(900px 750px at 50% 95%, rgba(139,233,255,.10), transparent 60%),
+        linear-gradient(180deg, var(--night), var(--velvet) 55%, var(--plum));
+    }
 
-    /* Subtle animated bokeh + stars */
-    .bokeh, .stars{
-      position:fixed; inset:0; z-index:0; pointer-events:none;
-    }
-    .bokeh{filter: blur(22px); opacity:.9}
-    .stars{opacity:.65}
+    /* Subtle animated bokeh + stars */
+    .bokeh, .stars{
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+    }
+    .bokeh{filter: blur(22px); opacity:.9}
+    .stars{opacity:.65}
 
-    .app{
-      position:relative; z-index:1;
-      height:100%;
-      display:flex; align-items:center; justify-content:center;
-      padding:18px;
-    }
+    .app{
+      position:relative; z-index:1;
+      height:100%;
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+    }
 
-    .card{
-      width:min(1040px, 100%);
-      min-height: min(680px, 90vh);
-      border-radius: 24px;
-      background:
-        radial-gradient(900px 500px at 10% 0%, rgba(255,183,197,.16), transparent 55%),
-        radial-gradient(900px 500px at 92% 20%, rgba(255,220,168,.12), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      overflow:hidden;
-      position:relative;
-    }
+    .card{
+      width:min(1040px, 100%);
+      min-height: min(680px, 90vh);
+      border-radius: 24px;
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(255,183,197,.16), transparent 55%),
+        radial-gradient(900px 500px at 92% 20%, rgba(255,220,168,.12), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow:hidden;
+      position:relative;
+    }
 
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 18px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    }
 
-    .title{display:flex; flex-direction:column; gap:2px;}
-    .title b{
-      font-family: var(--serif);
-      font-size:22px;
-      letter-spacing:.2px;
-      font-weight:700;
-    }
-    .title small{
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:.18px;
-      text-transform: uppercase;
-    }
+    .title{display:flex; flex-direction:column; gap:2px;}
+    .title b{
+      font-family: var(--serif);
+      font-size:22px;
+      letter-spacing:.2px;
+      font-weight:700;
+    }
+    .title small{
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.18px;
+      text-transform: uppercase;
+    }
 
-    .pillrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    .pill{
-      font-size:12px;
-      color:rgba(255,255,255,.78);
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      padding:8px 10px;
-      border-radius:999px;
-      display:flex; align-items:center; gap:8px;
-      user-select:none;
-    }
-    .pill button{
-      all:unset;
-      cursor:pointer;
-      color:var(--ink);
-      padding:4px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      transition: background .2s ease, transform .08s ease;
-    }
-    .pill button:hover{background: rgba(255,255,255,.12)}
-    .pill button:active{transform: translateY(1px)}
+    .pillrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .pill{
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      padding:8px 10px;
+      border-radius:999px;
+      display:flex; align-items:center; gap:8px;
+      user-select:none;
+    }
+    .pill button{
+      all:unset;
+      cursor:pointer;
+      color:var(--ink);
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      transition: background .2s ease, transform .08s ease;
+    }
+    .pill button:hover{background: rgba(255,255,255,.12)}
+    .pill button:active{transform: translateY(1px)}
 
-    .content{height:calc(100% - 60px); display:flex;}
-    .left{
-      width:min(340px, 38%);
-      border-right:1px solid rgba(255,255,255,.10);
-      padding:18px;
-      background:
-        radial-gradient(700px 480px at 10% 0%, rgba(255,183,197,.14), transparent 55%),
-        radial-gradient(700px 480px at 92% 38%, rgba(255,220,168,.10), transparent 55%);
-    }
-    .right{flex:1; padding:18px; overflow:auto;}
+    .content{height:calc(100% - 60px); display:flex;}
+    .left{
+      width:min(340px, 38%);
+      border-right:1px solid rgba(255,255,255,.10);
+      padding:18px;
+      background:
+        radial-gradient(700px 480px at 10% 0%, rgba(255,183,197,.14), transparent 55%),
+        radial-gradient(700px 480px at 92% 38%, rgba(255,220,168,.10), transparent 55%);
+    }
+    .right{flex:1; padding:18px; overflow:auto;}
 
-    .menu h2{
-      margin:0 0 8px 0;
-      font-family: var(--serif);
-      font-size:26px;
-      letter-spacing:.2px;
-    }
-    .menu p{
-      margin:0 0 14px 0;
-      color:var(--muted);
-      line-height:1.45;
-    }
+    .menu h2{
+      margin:0 0 8px 0;
+      font-family: var(--serif);
+      font-size:26px;
+      letter-spacing:.2px;
+    }
+    .menu p{
+      margin:0 0 14px 0;
+      color:var(--muted);
+      line-height:1.45;
+    }
 
-    .btn{
-      width:100%;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      padding:14px 14px;
-      margin:10px 0;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.07);
-      color:var(--ink);
-      cursor:pointer;
-      transition: transform .08s ease, background .2s ease, border-color .2s ease;
-    }
-    .btn:hover{
-      background: rgba(255,255,255,.11);
-      border-color: rgba(255,220,168,.28);
-    }
-    .btn:active{transform: translateY(1px)}
-    .btn[disabled]{opacity:.45; cursor:not-allowed}
+    .btn{
+      width:100%;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:14px 14px;
+      margin:10px 0;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color:var(--ink);
+      cursor:pointer;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,220,168,.28);
+    }
+    .btn:active{transform: translateY(1px)}
+    .btn[disabled]{opacity:.45; cursor:not-allowed}
 
-    .badge{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.12);
-      color:var(--muted);
-    }
-    .badge.ok{color:#c8ffd3; border-color:rgba(200,255,211,.26); background:rgba(20,80,40,.18)}
-    .badge.lock{color:#ffd7d7; border-color:rgba(255,110,138,.26); background:rgba(80,20,40,.18)}
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.12);
+      color:var(--muted);
+    }
+    .badge.ok{color:#c8ffd3; border-color:rgba(200,255,211,.26); background:rgba(20,80,40,.18)}
+    .badge.lock{color:#ffd7d7; border-color:rgba(255,110,138,.26); background:rgba(80,20,40,.18)}
 
-    .panel{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.12);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .panel::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(800px 500px at 12% 0%, rgba(255,183,197,.10), transparent 55%),
-        radial-gradient(800px 500px at 90% 20%, rgba(255,220,168,.08), transparent 55%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .panel > *{position:relative}
-    .panel h3{
-      margin:0 0 8px 0;
-      font-family: var(--serif);
-      font-size:24px;
-      letter-spacing:.2px;
-    }
-    .panel p{margin:0 0 10px 0; color:var(--muted); line-height:1.6}
+    .panel{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(800px 500px at 12% 0%, rgba(255,183,197,.10), transparent 55%),
+        radial-gradient(800px 500px at 90% 20%, rgba(255,220,168,.08), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .panel > *{position:relative}
+    .panel h3{
+      margin:0 0 8px 0;
+      font-family: var(--serif);
+      font-size:24px;
+      letter-spacing:.2px;
+    }
+    .panel p{margin:0 0 10px 0; color:var(--muted); line-height:1.6}
 
-    .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
-    .mini{font-size:12px; color:var(--muted)}
-    .hr{height:1px; background: rgba(255,255,255,.10); margin:14px 0}
+    .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+    .mini{font-size:12px; color:var(--muted)}
+    .hr{height:1px; background: rgba(255,255,255,.10); margin:14px 0}
 
-    .input{
-      width:100%;
-      padding:14px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06);
-      color:var(--ink);
-      outline:none;
-      font-size:16px;
-    }
-    .input:focus{
-      border-color: rgba(255,220,168,.55);
-      box-shadow: 0 0 0 3px rgba(255,220,168,.14);
-    }
+    .input{
+      width:100%;
+      padding:14px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:var(--ink);
+      outline:none;
+      font-size:16px;
+    }
+    .input:focus{
+      border-color: rgba(255,220,168,.55);
+      box-shadow: 0 0 0 3px rgba(255,220,168,.14);
+    }
 
-    .cta{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.18);
-      background: linear-gradient(90deg, rgba(255,220,168,.22), rgba(255,183,197,.16));
-      cursor:pointer;
-      user-select:none;
-      transition: transform .08s ease, filter .2s ease;
-    }
-    .cta:hover{filter:brightness(1.06)}
-    .cta:active{transform: translateY(1px)}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(90deg, rgba(255,220,168,.22), rgba(255,183,197,.16));
+      cursor:pointer;
+      user-select:none;
+      transition: transform .08s ease, filter .2s ease;
+    }
+    .cta:hover{filter:brightness(1.06)}
+    .cta:active{transform: translateY(1px)}
 
-    .fadeIn{animation: fadeIn .35s ease both}
-    @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+    .fadeIn{animation: fadeIn .35s ease both}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
 
-    /* Lock overlay */
-    .overlay{
-      position:absolute; inset:0; z-index:20;
-      display:flex; align-items:center; justify-content:center;
-      padding:18px;
-      background:
-        radial-gradient(1200px 700px at 25% 15%, rgba(255,183,197,.22), transparent 58%),
-        radial-gradient(1100px 700px at 78% 12%, rgba(255,220,168,.16), transparent 58%),
-        linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.50));
-      backdrop-filter: blur(16px);
-    }
-    .lockbox{
-      width:min(560px, 100%);
-      border-radius: 24px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      box-shadow: var(--shadow);
-      padding:20px;
-      position:relative;
-      overflow:hidden;
-    }
-    .lockbox::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background: radial-gradient(700px 450px at 20% 0%, rgba(255,183,197,.18), transparent 55%),
-                  radial-gradient(700px 450px at 85% 20%, rgba(255,220,168,.14), transparent 55%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .lockbox > *{position:relative}
-    .lockbox h1{
-      margin:0 0 6px 0;
-      font-family: var(--serif);
-      font-size:26px;
-      letter-spacing:.2px;
-    }
-    .lockbox p{margin:0 0 12px 0; color:var(--muted); line-height:1.5}
-    .hint{font-size:12px; color:var(--muted)}
-    .danger{color:#ffd7d7}
-    .shake{animation: shake .35s ease}
-    @keyframes shake{
-      0%,100%{transform:translateX(0)}
-      20%{transform:translateX(-8px)}
-      40%{transform:translateX(8px)}
-      60%{transform:translateX(-6px)}
-      80%{transform:translateX(6px)}
-    }
+    /* Lock overlay */
+    .overlay{
+      position:absolute; inset:0; z-index:20;
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+      background:
+        radial-gradient(1200px 700px at 25% 15%, rgba(255,183,197,.22), transparent 58%),
+        radial-gradient(1100px 700px at 78% 12%, rgba(255,220,168,.16), transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.50));
+      backdrop-filter: blur(16px);
+    }
+    .lockbox{
+      width:min(560px, 100%);
+      border-radius: 24px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+    .lockbox::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 450px at 20% 0%, rgba(255,183,197,.18), transparent 55%),
+                  radial-gradient(700px 450px at 85% 20%, rgba(255,220,168,.14), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .lockbox > *{position:relative}
+    .lockbox h1{
+      margin:0 0 6px 0;
+      font-family: var(--serif);
+      font-size:26px;
+      letter-spacing:.2px;
+    }
+    .lockbox p{margin:0 0 12px 0; color:var(--muted); line-height:1.5}
+    .hint{font-size:12px; color:var(--muted)}
+    .danger{color:#ffd7d7}
+    .shake{animation: shake .35s ease}
+    @keyframes shake{
+      0%,100%{transform:translateX(0)}
+      20%{transform:translateX(-8px)}
+      40%{transform:translateX(8px)}
+      60%{transform:translateX(-6px)}
+      80%{transform:translateX(6px)}
+    }
 
-    /* quiz */
-    .choices{display:grid; gap:10px}
-    .choice{
-      text-align:left;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      cursor:pointer;
-      transition: background .2s ease, border-color .2s ease;
-    }
-    .choice:hover{
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,220,168,.26);
-    }
-    .prog{height:10px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden}
-    .bar{height:100%; width:0%; background: linear-gradient(90deg, rgba(255,220,168,.75), rgba(255,183,197,.70))}
+    /* quiz */
+    .choices{display:grid; gap:10px}
+    .choice{
+      text-align:left;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .choice:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,220,168,.26);
+    }
+    .prog{height:10px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden}
+    .bar{height:100%; width:0%; background: linear-gradient(90deg, rgba(255,220,168,.75), rgba(255,183,197,.70))}
 
-    /* maze */
-    .mazeWrap{display:flex; flex-direction:column; gap:12px}
-    canvas.maze{
-      width:100%;
-      max-width:560px;
-      aspect-ratio: 1 / 1;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.25);
-      box-shadow: 0 16px 50px rgba(0,0,0,.35);
-    }
-    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .dpad{display:grid; grid-template-columns: 54px 54px 54px; grid-template-rows: 54px 54px 54px; gap:8px}
-    .dpad button, .smallbtn{
-      width:54px; height:54px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color:var(--ink); cursor:pointer;
-      font-size:18px;
-      transition: background .2s ease, transform .08s ease;
-    }
-    .dpad button:hover, .smallbtn:hover{background: rgba(255,255,255,.12)}
-    .dpad button:active, .smallbtn:active{transform: translateY(1px)}
-    .smallbtn{width:auto; padding:0 12px; height:44px; font-size:14px}
-    .kbd{color:var(--muted); font-size:12px}
+    /* maze */
+    .mazeWrap{display:flex; flex-direction:column; gap:12px}
+    canvas.maze{
+      width:100%;
+      max-width:560px;
+      aspect-ratio: 1 / 1;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+    }
+    .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .dpad{display:grid; grid-template-columns: 54px 54px 54px; grid-template-rows: 54px 54px 54px; gap:8px}
+    .dpad button, .smallbtn{
+      width:54px; height:54px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color:var(--ink); cursor:pointer;
+      font-size:18px;
+      transition: background .2s ease, transform .08s ease;
+    }
+    .dpad button:hover, .smallbtn:hover{background: rgba(255,255,255,.12)}
+    .dpad button:active, .smallbtn:active{transform: translateY(1px)}
+    .smallbtn{width:auto; padding:0 12px; height:44px; font-size:14px}
+    .kbd{color:var(--muted); font-size:12px}
 
-    /* cards grid (letters + gifts) */
-    .grid{display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));}
-    .tile{
-      padding:16px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      cursor:pointer;
-      position:relative;
-      overflow:hidden;
-      min-height:120px;
-      transition: background .2s ease, border-color .2s ease, transform .08s ease;
-    }
-    .tile:hover{
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,220,168,.28);
-    }
-    .tile:active{transform: translateY(1px)}
-    .tile b{display:block; margin-top:8px; font-family:var(--serif); font-size:18px}
-    .spark{
-      position:absolute; inset:-40px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,220,168,.22), transparent 45%),
-        radial-gradient(circle at 70% 40%, rgba(255,183,197,.18), transparent 45%),
-        radial-gradient(circle at 40% 80%, rgba(139,233,255,.12), transparent 55%);
-      opacity:0; transition: opacity .25s ease;
-    }
-    .tile:hover .spark{opacity:1}
+    /* cards grid (letters + gifts) */
+    .grid{display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));}
+    .tile{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      position:relative;
+      overflow:hidden;
+      min-height:120px;
+      transition: background .2s ease, border-color .2s ease, transform .08s ease;
+    }
+    .tile:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,220,168,.28);
+    }
+    .tile:active{transform: translateY(1px)}
+    .tile b{display:block; margin-top:8px; font-family:var(--serif); font-size:18px}
+    .spark{
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,220,168,.22), transparent 45%),
+        radial-gradient(circle at 70% 40%, rgba(255,183,197,.18), transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(139,233,255,.12), transparent 55%);
+      opacity:0; transition: opacity .25s ease;
+    }
+    .tile:hover .spark{opacity:1}
 
-    /* letter modal */
-    .modal{
-      position:absolute; inset:0; z-index:30;
-      display:none; align-items:center; justify-content:center;
-      padding:18px;
-      background: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.55));
-      backdrop-filter: blur(14px);
-    }
-    .modal.show{display:flex}
-  /* ---------------------------------------------------- */
+    /* letter modal */
+    .modal{
+      position:absolute; inset:0; z-index:30;
+      display:none; align-items:center; justify-content:center;
+      padding:18px;
+      background: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.55));
+      backdrop-filter: blur(14px);
+    }
+    .modal.show{display:flex}
+    
+/* ---------------------------------------------------- */
 /* --- Letter Frame: THE MAIN CONTAINER (FIXED SIZE) --- */
 /* ---------------------------------------------------- */
 .letterFrame{
@@ -382,10 +383,10 @@
     overflow:hidden;
     position:relative;
     
-    /* === ADD THESE LINES TO SET A MAX HEIGHT === */
-    max-height: 90vh; /* Set the entire box to a max of 90% of screen height */
-    display: flex; /* Enable flexible layout */
-    flex-direction: column; /* Stack children vertically (header then body) */
+    /* === FIX: SET MAX HEIGHT AND ENABLE FLEX LAYOUT === */
+    max-height: 90vh; 
+    display: flex; 
+    flex-direction: column; 
 }
 
 /* ---------------------------------------------------- */
@@ -395,8 +396,6 @@
     padding:16px 18px;
     border-bottom:1px solid rgba(255,255,255,.10);
     display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    
-    /* Ensure the header takes only the space it needs */
     flex-shrink: 0; 
 }
 .letterTop h4{
@@ -412,7 +411,6 @@
     text-transform: uppercase;
     color:rgba(255,255,255,.72);
 }
-/* ... (closeX, ghost, hintline styles here) ... */
 .closeX{
     all:unset; cursor:pointer;
     width:40px; height:40px;
@@ -445,9 +443,9 @@
     background: rgba(0,0,0,.12); 
     border-top:1px solid rgba(255,255,255,.06);
     
-    /* === ADD THESE LINES === */
-    flex-grow: 1; /* Allows this wrapper to take up all vertical space */
-    overflow: hidden; /* Important: Hides internal scrollbar of the parent */
+    /* === FIX: Take up remaining space and contain scroll === */
+    flex-grow: 1; 
+    overflow: hidden; 
 }
 .paperInner{
     border-radius: 18px;
@@ -457,9 +455,9 @@
         linear-gradient(180deg, rgba(10,10,18,.75), rgba(10,10,18,.55));
     padding:18px;
     
-    /* === ADD THIS LINE === */
-    height: 100%; /* Ensure it occupies the full height of the .paper parent */
-    display: flex; /* Helps manage the .letterBody's height */
+    /* === FIX: Ensure inner height and column layout === */
+    height: 100%; 
+    display: flex; 
     flex-direction: column;
 }
 
@@ -474,169 +472,183 @@
     letter-spacing: .2px;
     white-space: pre-wrap;
     
-    /* === REMOVE THE LINE THAT CAUSES GROWTH === */
+    /* === FIX: Remove min-height and add scroll === */
     /* REMOVED: min-height: 220px; */ 
-
-    /* === ADD THESE LINES FOR INTERNAL SCROLLING === */
-    flex-grow: 1; /* Fills all space inside .paperInner */
-    overflow-y: auto; /* THE FIX: Enables vertical scrolling */
-    padding-right: 15px; /* Ensures text doesn't hide behind the scrollbar */
+    flex-grow: 1; 
+    overflow-y: auto; 
+    padding-right: 15px; 
 }
 .letterActions{
     display:flex; gap:10px; flex-wrap:wrap; align-items:center;
     margin-top:14px;
-    
-    /* Ensure action buttons are visible and don't scroll away */
     flex-shrink: 0; 
 }
 
-    /* confetti */
-    .confetti{position:fixed; inset:0; pointer-events:none; z-index:50; display:none;}
-  </style>
+    /* confetti */
+    .confetti{position:fixed; inset:0; pointer-events:none; z-index:50; display:none;}
+  </style>
 </head>
 <body>
-  <canvas class="bokeh" id="bokeh"></canvas>
-  <canvas class="stars" id="stars"></canvas>
-  <canvas class="confetti" id="confetti"></canvas>
+  <canvas class="bokeh" id="bokeh"></canvas>
+  <canvas class="stars" id="stars"></canvas>
+  <canvas class="confetti" id="confetti"></canvas>
 
-  <div class="app">
-    <div class="card" id="card">
+  <div class="app">
+    <div class="card" id="card">
 
-      <div class="topbar">
-        <div class="title">
-          <b>Happy 22nd Birthday, Piku 🎂</b>
-          <small id="subtitle">A private world made only for you.</small>
-        </div>
+      <div class="topbar">
+        <div class="title">
+          <b>Happy 22nd Birthday, Piku 🎂</b>
+          <small id="subtitle">A private world made only for you.</small>
+        </div>
 
-        <div class="pillrow">
-          <div class="pill">Progress: <span id="progressText">Locked</span></div>
-          <div class="pill">
-            Ambience
-            <button id="ambBtn" type="button">Off</button>
-          </div>
-          <div class="pill">
-            Reset
-            <button id="resetBtn" type="button">↺</button>
-          </div>
-        </div>
-      </div>
+        <div class="pillrow">
+          <div class="pill">Progress: <span id="progressText">Locked</span></div>
+          <div class="pill">
+            Ambience
+            <button id="ambBtn" type="button">Off</button>
+          </div>
+          <div class="pill">
+            Reset
+            <button id="resetBtn" type="button">↺</button>
+          </div>
+        </div>
+      </div>
 
-      <div class="content">
-        <div class="left">
-          <div class="menu">
-            <h2>Hub</h2>
-            <p>
-              Start the birthday game, or open the letters whenever you need them.
-              Some doors open only after you earn them.
-            </p>
+      <div class="content">
+        <div class="left">
+          <div class="menu">
+            <h2>Hub</h2>
+            <p>
+              Start the birthday game, or open the letters whenever you need them.
+              Some doors open only after you earn them.
+            </p>
 
-            <button class="btn" id="btnGame">
-              <span>🎮 Start Birthday Game</span>
-              <span class="badge" id="badgeGame">Locked</span>
-            </button>
+            <button class="btn" id="btnGame">
+              <span>🎮 Start Birthday Game</span>
+              <span class="badge" id="badgeGame">Locked</span>
+            </button>
 
-            <button class="btn" id="btnLetters" disabled>
-              <span>💌 Open When… Letters</span>
-              <span class="badge lock" id="badgeLetters">Locked</span>
-            </button>
+            <button class="btn" id="btnLetters" disabled>
+              <span>💌 Open When… Letters</span>
+              <span class="badge lock" id="badgeLetters">Locked</span>
+            </button>
 
-            <button class="btn" id="btnGifts" disabled>
-              <span>🎁 Virtual Gifts</span>
-              <span class="badge lock" id="badgeGifts">Locked</span>
-            </button>
+            <button class="btn" id="btnGifts" disabled>
+              <span>🎁 Virtual Gifts</span>
+              <span class="badge lock" id="badgeGifts">Locked</span>
+            </button>
 
-            <div class="hr"></div>
-            <div class="mini">
-              Mazes: use <b>WASD</b> / arrow keys on laptop, or the buttons on phone.
-            </div>
-          </div>
-        </div>
+            <div class="hr"></div>
+            <div class="mini">
+              Mazes: use <b>WASD</b> / arrow keys on laptop, or the buttons on phone.
+            </div>
+          </div>
+        </div>
 
-        <div class="right" id="screen"></div>
-      </div>
+        <div class="right" id="screen"></div>
+      </div>
 
-      <!-- LETTER MODAL -->
-      <div class="modal" id="letterModal" aria-hidden="true">
-        <div class="letterFrame">
-          <div class="letterTop">
-            <div>
-              <h4 id="letterTitle">Open When…</h4>
-              <div class="sub" id="letterSub">take your time</div>
-            </div>
-            <button class="closeX" id="closeLetter" title="Close">✕</button>
-          </div>
+            <div class="modal" id="letterModal" aria-hidden="true">
+        <div class="letterFrame">
+          <div class="letterTop">
+            <div>
+              <h4 id="letterTitle">Open When…</h4>
+              <div class="sub" id="letterSub">take your time</div>
+            </div>
+            <button class="closeX" id="closeLetter" title="Close">✕</button>
+          </div>
 
-          <div class="paper">
-            <div class="paperInner">
-              <div class="letterBody" id="letterBody"> </div>
+          <div class="paper">
+            <div class="paperInner">
+              <div class="letterBody" id="letterBody"> </div>
 
-              <div class="letterActions">
-                <div class="cta" id="letterNextBtn">Begin reading</div>
-                <button class="ghost" id="letterRestartBtn">Restart</button>
-                <span class="hintline" id="letterHint">No rush. Read slowly.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              <div class="letterActions">
+                <div class="cta" id="letterNextBtn">Begin reading</div>
+                <button class="ghost" id="letterRestartBtn">Restart</button>
+                <span class="hintline" id="letterHint">No rush. Read slowly.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <!-- LOCK OVERLAY (PASSWORD GATE) -->
-      <div class="overlay" id="lockOverlay">
-        <div class="lockbox" id="lockBox">
-          <h1>🔐 Enter the code</h1>
-          <p>
-            This space is protected.
-            <br><span class="mini">Hint: our anniversary day.</span>
-          </p>
-          <input class="input" id="codeInput" placeholder="" autocomplete="off" />
-          <div class="row" style="margin-top:12px">
-            <div class="cta" id="unlockBtn">Unlock</div>
-            <span class="hint" id="lockMsg"></span>
-          </div>
-        </div>
-      </div>
+            <div class="overlay" id="lockOverlay">
+        <div class="lockbox" id="lockBox">
+          <h1>🔐 Enter the code</h1>
+          <p>
+            This space is protected.
+            <br><span class="mini">Hint: our anniversary day.</span>
+          </p>
+            
+            <form id="lockForm"> 
+                <input class="input" id="codeInput" placeholder="" autocomplete="off" />
+                <div class="row" style="margin-top:12px">
+                                    <button type="submit" class="cta" id="unlockBtn">Unlock</button> 
+                    <span class="hint" id="lockMsg"></span>
+                </div>
+            </form>
+                    </div>
+      </div>
 
-    </div>
-  </div>
+    </div>
+  </div>
 <script>
 /* =========================
-   QUIZ (EDIT THESE)
-   ========================= */
-// Assume this is the function called when the user clicks an answer button.
+   QUIZ DATA (Corrected)
+   ========================= */
+const QUIZ = [
+  {
+    q: "Where did we have our first real conversation?",
+    a: ["In class", "On call", "At a café", "At a party"],
+    // 'On call' is the 2nd option, so correct: 2
+    correct: 2, 
+    good: "Of course you remember, Piku.",
+    bad: "It’s okay, Piku. I remember for us."
+  },
+  {
+    q: "What is my favourite small thing you do?",
+    a: ["You check in", "You make me laugh", "You listen quietly", "You hype me up"],
+    // 'You make me laugh' is the 2nd option, so correct: 2
+    correct: 2, 
+    good: "Yes. That one matters.",
+    bad: "Still cute. But not the one."
+  },
+  {
+    q: "What would I choose for a perfect night with you?",
+    a: ["Going out fancy", "Staying in + movie", "Long drive + snacks", "All of the above"],
+    // 'All of the above' is the 4th option, so correct: 4
+    correct: 4, 
+    good: "Correct. Any version of you is the plan.",
+    bad: "Honestly… any version of you is the plan."
+  }
+];
+
+
+/* =========================
+   QUIZ LOGIC (Uses 1-based indexing for 'correct')
+   ========================= */
 function checkAnswer(quizArray, questionIndex, userSelection) {
-    
-    // 1. Get the current question object from the array
-    const currentQuestion = quizArray[questionIndex];
-    
-    // 2. Get the expected answer number (e.g., 2 or 4) from the quiz object
-    const correctAnswerNumber = currentQuestion.correct; 
-    
-    // 3. Compare the user's selection (1, 2, 3, or 4) 
-    //    with the correct answer number (2 or 4)
-    if (userSelection === correctAnswerNumber) {
-        
-        // The answer is CORRECT
-        console.log("Correct! " + currentQuestion.good);
-        return true; 
-        
-    } else {
-        
-        // The answer is INCORRECT
-        console.log("Incorrect. " + currentQuestion.bad);
-        
-       
-        const correctOptionText = currentQuestion.a[correctAnswerNumber - 1]; 
-        console.log("The correct answer was: " + correctOptionText);
-        return false;
-    }
+    const currentQuestion = quizArray[questionIndex];
+    const correctAnswerNumber = currentQuestion.correct; 
+    
+    if (userSelection === correctAnswerNumber) {
+        console.log("Correct! " + currentQuestion.good);
+        return true; 
+    } else {
+        console.log("Incorrect. " + currentQuestion.bad);
+        const correctOptionText = currentQuestion.a[correctAnswerNumber - 1]; 
+        console.log("The correct answer was: " + correctOptionText);
+        return false;
+    }
 }
 
 
 const LETTERS = {
-  love: {
-    title: "Open when you don’t feel loved",
-    sub: "a reminder that you are chosen",
-    text: `My love, Piku,
+  love: {
+    title: "Open when you don’t feel loved",
+    sub: "a reminder that you are chosen",
+    text: `My love, Piku,
 
 If you are reading this, I want you to pause for a moment and breathe. I wish I were beside you right now, but since I am not, let these words hold you the way I would. You are deeply loved. Not for what you do, not for how strong you are on your best days, but for who you are on every single one, even the heavy ones.
 
@@ -651,12 +663,12 @@ You are not alone, Piku. You never have been. My love for you is steady and pati
 Come back to this whenever you need to be reminded. I am here. I love you, always.
 
 Yours.`
-  },
+  },
 
-  sad: {
-    title: "Open when you feel sad",
-    sub: "I love you so so much, and we can get through ths together",
-    text: `My love, Piku,
+  sad: {
+    title: "Open when you feel sad",
+    sub: "I love you so so much, and we can get through ths together",
+    text: `My love, Piku,
 
 If you are feeling sad right now, I want you to know that you do not have to push it away or make it smaller. Your sadness is allowed to exist. It does not make you weak, and it does not change the way I see you. If anything, it makes me want to hold you closer.
 
@@ -669,12 +681,12 @@ It is okay if all you can do right now is get through this moment. That is more 
 I am proud of you for feeling deeply in a world that often asks people not to. I am here for you in your sadness just as much as in your joy. I love you, quietly, fiercely, and without conditions.
 
 Always yours.`
-  },
+  },
 
-  miss: {
-    title: "Open when you miss me",
-    sub: "distance is only a pause",
-    text: `My love, Piku,
+  miss: {
+    title: "Open when you miss me",
+    sub: "distance is only a pause",
+    text: `My love, Piku,
 
 If you are missing me right now, I want you to know that I feel it too, even if I am not saying it out loud at the same moment. Distance has a strange way of making love ache, but it never makes it smaller. If anything, it reminds us how real it is.
 
@@ -687,159 +699,48 @@ This distance does not undo us. It proves us. It proves that what we have is wor
 Until then, hold this truth close. You are loved even from afar. You are missed in return. And no matter where we are, my heart knows exactly where yours is.
 
 Always yours.`
-  }
+  }
 };
-<div id="letterModal" class="modal-overlay"> 
-    
-    <div class="letter-box"> 
-        
-        <header class="letter-header">
-            <button onclick="closeLetter()">X</button> 
-            <h2>Open when you don’t feel loved</h2>
-            <p>a reminder that you are chosen</p>
-        </header>
-        
-        <div id="letterContent" class="letter-scroll-area">
-            </div>
-        
-    </div>
-</div>
 
-  /* 1. Modal Overlay: Fills the screen and centers the content */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Dark background */
-    display: none; /* Hidden by default */
-    z-index: 1000;
-}
-
-/* 2. Letter Container: The main white box */
-.letter-box {
-    background-color: white;
-    width: 90%;
-    max-width: 600px;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    /* Essential for layout: Set a max height so the content doesn't
-       overflow the whole viewport */
-    max-height: 90vh; 
-    
-    /* Use flexbox to organize the header and scrolling content */
-    display: flex;
-    flex-direction: column;
-}
-
-/* 3. Letter Header: Keeps the title and button static */
-.letter-header {
-    /* Ensures the button is visible and at the top */
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eee; 
-}
-
-/* 4. Letter Scrolling Area (THE FIX!) */
-.letter-scroll-area {
-    /* flex-grow: 1 allows this section to take up all remaining space */
-    flex-grow: 1; 
-    
-    /* Crucial line 1: This is what makes it scroll */
-    overflow-y: auto; 
-    
-    /* Crucial line 2: Ensures padding for readable scroll */
-    padding-right: 15px; 
-    
-    /* Sets the font style for readability */
-    white-space: pre-wrap; /* Preserves your paragraph breaks from the JS string */
-    line-height: 1.6;
-}
-
-/* Styling the Exit Button */
-.letter-header button {
-    float: right;
-    border: none;
-    background: transparent;
-    font-size: 1.5em;
-    cursor: pointer;
-}
-  function openLetter(letterKey) {
+/* LETTER MODAL FUNCTIONS */
+function openLetter(letterKey) {
     const letterData = LETTERS[letterKey];
+    document.getElementById('letterTitle').textContent = letterData.title;
+    document.getElementById('letterSub').textContent = letterData.sub;
     
-    // 1. Update the header dynamically
-    document.querySelector('.letter-header h2').textContent = letterData.title;
-    document.querySelector('.letter-header p').textContent = letterData.sub;
+    // Insert the ENTIRE text into the scrollable area
+    document.getElementById('letterBody').textContent = letterData.text; 
     
-    // 2. Insert the ENTIRE text into the scrollable area
-    document.getElementById('letterContent').textContent = letterData.text; 
-    
-    // 3. Show the modal
-    document.getElementById('letterModal').style.display = 'block';
+    document.getElementById('letterModal').classList.add('show');
 }
 
 function closeLetter() {
-    // 4. Hide the modal to exit
-    document.getElementById('letterModal').style.display = 'none';
+    document.getElementById('letterModal').classList.remove('show');
 }
-  /* 1. The container for the whole letter (the box itself) */
-.letter-box {
-    background-color: white;
-    width: 90%;
-    max-width: 600px;
-    margin: 5% auto;
-    border-radius: 10px;
+document.getElementById('closeLetter').addEventListener('click', closeLetter);
 
-    /* --- THESE LINES ENFORCE THE FIXED SIZE --- */
-    max-height: 90vh; /* Limits the box height to 90% of the screen */
-    display: flex;
-    flex-direction: column; 
-    /* The padding must be applied here or on the contents */
-    padding: 20px; 
-}
-
-/* 2. The area that holds the actual text */
-.letter-scroll-area {
-    /* flex-grow: 1 ensures it occupies all remaining height */
-    flex-grow: 1; 
-    
-    /* overflow-y: auto makes it scroll internally when needed */
-    overflow-y: auto; 
-    
-    /* Ensure text doesn't stick to the side when scrolling */
-    padding-right: 10px; 
-}
-
-/* Optional: Ensure the header is fixed in height */
-.letter-header {
-    flex-shrink: 0; /* Prevents the header from shrinking */
-    /* ... other styles for button and titles ... */
-}
 /* =========================
-   STATE + STORAGE
-   ========================= */
+   STATE + STORAGE
+   ========================= */
 const LS_KEY = "piku_bday_romance_v2";
 const state = loadState() || {
-  unlocked: false,
-  stage: 0, // 0=not started, 1=quiz done, 2=maze1 done, 3=maze2 done, 4=complete
-  lettersUnlocked: false,
-  giftsUnlocked: false
+  unlocked: false,
+  stage: 0, 
+  lettersUnlocked: false,
+  giftsUnlocked: false
 };
 function loadState(){ try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch { return null; } }
 function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 function resetAll(){ localStorage.removeItem(LS_KEY); location.reload(); }
 
 /* =========================
-   UI ELEMENTS
-   ========================= */
+   UI ELEMENTS
+   ========================= */
 const lockOverlay = document.getElementById("lockOverlay");
 const lockBox = document.getElementById("lockBox");
 const codeInput = document.getElementById("codeInput");
-const unlockBtn = document.getElementById("unlockBtn");
 const lockMsg = document.getElementById("lockMsg");
+const lockForm = document.getElementById("lockForm"); // New form element
 
 const screen = document.getElementById("screen");
 const subtitle = document.getElementById("subtitle");
@@ -854,55 +755,111 @@ const badgeGifts = document.getElementById("badgeGifts");
 
 document.getElementById("resetBtn").addEventListener("click", resetAll);
 
+
 /* =========================
-   AMBIENCE (optional)
+   PASSWORD CHECK LOGIC (The Fix)
    ========================= */
+const CORRECT_PASSWORD = "0624"; // The correct anniversary password
+
+function checkPassword() {
+    const enteredCode = codeInput.value.trim();
+    
+    if (enteredCode === CORRECT_PASSWORD) {
+        lockOverlay.style.display = 'none'; 
+        
+        state.unlocked = true;
+        saveState();
+        codeInput.value = ''; 
+        
+        // This function would normally update your buttons/badges
+        // If it's not defined, remove this line or define it elsewhere:
+        // updateUI(); 
+        
+    } else {
+        lockMsg.textContent = "Incorrect code. Try again.";
+        lockBox.classList.add("shake");
+        setTimeout(() => {
+            lockBox.classList.remove("shake");
+            lockMsg.textContent = ""; 
+        }, 800);
+    }
+}
+
+// === FIX: Listen for FORM SUBMIT event (handles Enter key and button click) ===
+if (lockForm) {
+    lockForm.addEventListener("submit", function(e) {
+        e.preventDefault(); // Stop the page from reloading
+        checkPassword(); 
+    });
+}
+// ==============================================================================
+
+
+/* =========================
+   AMBIENCE (optional)
+   ========================= */
 let ambienceOn = false;
 let ambienceOsc = null;
 const ambBtn = document.getElementById("ambBtn");
 ambBtn.addEventListener("click", () => {
-  ambienceOn = !ambienceOn;
-  ambBtn.textContent = ambienceOn ? "On" : "Off";
-  if(ambienceOn) startAmbience(); else stopAmbience();
+  ambienceOn = !ambienceOn;
+  ambBtn.textContent = ambienceOn ? "On" : "Off";
+  if(ambienceOn) startAmbience(); else stopAmbience();
 });
 function startAmbience(){
-  const AC = window.AudioContext || window.webkitAudioContext;
-  const ctx = new AC();
-  ambienceOsc = { ctx };
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AC();
+  ambienceOsc = { ctx };
 
-  const o1 = ctx.createOscillator();
-  const o2 = ctx.createOscillator();
-  const g = ctx.createGain();
-  g.gain.value = 0.025;
+  const o1 = ctx.createOscillator();
+  const o2 = ctx.createOscillator();
+  const g = ctx.createGain();
+  g.gain.value = 0.025;
 
-  o1.type = "sine"; o2.type = "triangle";
-  o1.frequency.value = 110;
-  o2.frequency.value = 220;
+  o1.type = "sine"; o2.type = "triangle";
+  o1.frequency.value = 110;
+  o2.frequency.value = 220;
 
-  const lfo = ctx.createOscillator();
-  const lfoGain = ctx.createGain();
-  lfo.frequency.value = 0.07;
-  lfoGain.gain.value = 16;
-  lfo.connect(lfoGain);
-  lfoGain.connect(o2.frequency);
+  const lfo = ctx.createOscillator();
+  const lfoGain = ctx.createGain();
+  lfo.frequency.value = 0.07;
+  lfoGain.gain.value = 16;
+  lfo.connect(lfoGain);
+  lfoGain.connect(o2.frequency);
 
-  o1.connect(g); o2.connect(g);
-  g.connect(ctx.destination);
+  o1.connect(g); o2.connect(g);
+  g.connect(ctx.destination);
 
-  o1.start(); o2.start(); lfo.start();
+  o1.start(); o2.start(); lfo.start();
 
-  ambienceOsc.nodes = {o1,o2,lfo,g};
+  ambienceOsc.nodes = {o1,o2,lfo,g};
 }
 function stopAmbience(){
-  try{
-    if(!ambienceOsc) return;
-    const {ctx, nodes} = ambienceOsc;
-    nodes.o1.stop(); nodes.o2.stop(); nodes.lfo.stop();
-    ctx.close();
-  }catch{}
-  ambienceOsc = null;
+  try{
+    if(!ambienceOsc) return;
+    const {ctx, nodes} = ambienceOsc;
+    nodes.o1.stop(); nodes.o2.stop(); nodes.lfo.stop();
+    ctx.close();
+  }catch{}
+  ambienceOsc = null;
 }
 
+/* =========================
+   BACKGROUNDS: bokeh + stars
+   ========================= */
+const bokeh = document.getElementById("bokeh");
+const bctx = bokeh.getContext("2d");
+const stars = document.getElementById("stars");
+const sctx = stars.getContext("2d");
+let blobs = [];
+let starField = [];
+
+functio
+// The rest of the functions related to background drawing should follow here
+// (They were truncated in the provided code, but this code is ready for them.)
+</script>
+</body>
+</html>
 /* =========================
    BACKGROUNDS: bokeh + stars
    ========================= */
