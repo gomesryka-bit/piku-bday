@@ -643,29 +643,101 @@ Until then, hold this truth close. You are loved even from afar. You are missed 
 Always yours.`
   }
 };
-// Function to display the letter
-function openLetter(letterKey) {
+<div id="letterModal" class="modal-overlay"> 
+    
+    <div class="letter-box"> 
+        
+        <header class="letter-header">
+            <button onclick="closeLetter()">X</button> 
+            <h2>Open when you don’t feel loved</h2>
+            <p>a reminder that you are chosen</p>
+        </header>
+        
+        <div id="letterContent" class="letter-scroll-area">
+            </div>
+        
+    </div>
+</div>
+
+  /* 1. Modal Overlay: Fills the screen and centers the content */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background */
+    display: none; /* Hidden by default */
+    z-index: 1000;
+}
+
+/* 2. Letter Container: The main white box */
+.letter-box {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    /* Essential for layout: Set a max height so the content doesn't
+       overflow the whole viewport */
+    max-height: 90vh; 
+    
+    /* Use flexbox to organize the header and scrolling content */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. Letter Header: Keeps the title and button static */
+.letter-header {
+    /* Ensures the button is visible and at the top */
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee; 
+}
+
+/* 4. Letter Scrolling Area (THE FIX!) */
+.letter-scroll-area {
+    /* flex-grow: 1 allows this section to take up all remaining space */
+    flex-grow: 1; 
+    
+    /* Crucial line 1: This is what makes it scroll */
+    overflow-y: auto; 
+    
+    /* Crucial line 2: Ensures padding for readable scroll */
+    padding-right: 15px; 
+    
+    /* Sets the font style for readability */
+    white-space: pre-wrap; /* Preserves your paragraph breaks from the JS string */
+    line-height: 1.6;
+}
+
+/* Styling the Exit Button */
+.letter-header button {
+    float: right;
+    border: none;
+    background: transparent;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+  function openLetter(letterKey) {
     const letterData = LETTERS[letterKey];
-    const displayElement = document.querySelector('.letter-content-box p');
     
-    // Set the entire letter text at once
-    displayElement.innerHTML = letterData.text; 
+    // 1. Update the header dynamically
+    document.querySelector('.letter-header h2').textContent = letterData.title;
+    document.querySelector('.letter-header p').textContent = letterData.sub;
     
-    // Make the modal visible
-    document.querySelector('.letter-modal-overlay').style.display = 'block';
+    // 2. Insert the ENTIRE text into the scrollable area
+    document.getElementById('letterContent').textContent = letterData.text; 
     
-    // The key is making sure you DO NOT have a function that looks like this:
-    /* let paragraphs = letterData.text.split('\n\n'); 
-    let currentParagraphIndex = 0;
-    
-    function showNextParagraph() {
-        if (currentParagraphIndex < paragraphs.length) {
-            // Append the next paragraph
-            displayElement.innerHTML += '<p>' + paragraphs[currentParagraphIndex] + '</p>';
-            currentParagraphIndex++;
-        }
-    }
-    */
+    // 3. Show the modal
+    document.getElementById('letterModal').style.display = 'block';
+}
+
+function closeLetter() {
+    // 4. Hide the modal to exit
+    document.getElementById('letterModal').style.display = 'none';
 }
 /* =========================
    STATE + STORAGE
