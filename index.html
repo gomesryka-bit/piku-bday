@@ -556,29 +556,35 @@
 /* =========================
    QUIZ (EDIT THESE)
    ========================= */
-const QUIZ = [
-  {
-    q: "Where did we have our first real conversation?",
-    a: ["In class", "On call", "At a café", "At a party"],
-    correct: 2,
-    good: "Of course you remember, Piku.",
-    bad: "It’s okay, Piku. I remember for us."
-  },
-  {
-    q: "What is my favourite small thing you do?",
-    a: ["You check in", "You make me laugh", "You listen quietly", "You hype me up"],
-    correct: 2,
-    good: "Yes. That one matters.",
-    bad: "Still cute. But not the one."
-  },
-  {
-    q: "What would I choose for a perfect night with you?",
-    a: ["Going out fancy", "Staying in + movie", "Long drive + snacks", "All of the above"],
-    correct: 4,
-    good: "Correct. Any version of you is the plan.",
-    bad: "Honestly… any version of you is the plan."
-  }
-];
+// Assume this is the function called when the user clicks an answer button.
+function checkAnswer(quizArray, questionIndex, userSelection) {
+    
+    // 1. Get the current question object from the array
+    const currentQuestion = quizArray[questionIndex];
+    
+    // 2. Get the expected answer number (e.g., 2 or 4) from the quiz object
+    const correctAnswerNumber = currentQuestion.correct; 
+    
+    // 3. Compare the user's selection (1, 2, 3, or 4) 
+    //    with the correct answer number (2 or 4)
+    if (userSelection === correctAnswerNumber) {
+        
+        // The answer is CORRECT
+        console.log("Correct! " + currentQuestion.good);
+        return true; 
+        
+    } else {
+        
+        // The answer is INCORRECT
+        console.log("Incorrect. " + currentQuestion.bad);
+        
+       
+        const correctOptionText = currentQuestion.a[correctAnswerNumber - 1]; 
+        console.log("The correct answer was: " + correctOptionText);
+        return false;
+    }
+}
+
 
 const LETTERS = {
   love: {
@@ -637,7 +643,30 @@ Until then, hold this truth close. You are loved even from afar. You are missed 
 Always yours.`
   }
 };
-
+// Function to display the letter
+function openLetter(letterKey) {
+    const letterData = LETTERS[letterKey];
+    const displayElement = document.querySelector('.letter-content-box p');
+    
+    // Set the entire letter text at once
+    displayElement.innerHTML = letterData.text; 
+    
+    // Make the modal visible
+    document.querySelector('.letter-modal-overlay').style.display = 'block';
+    
+    // The key is making sure you DO NOT have a function that looks like this:
+    /* let paragraphs = letterData.text.split('\n\n'); 
+    let currentParagraphIndex = 0;
+    
+    function showNextParagraph() {
+        if (currentParagraphIndex < paragraphs.length) {
+            // Append the next paragraph
+            displayElement.innerHTML += '<p>' + paragraphs[currentParagraphIndex] + '</p>';
+            currentParagraphIndex++;
+        }
+    }
+    */
+}
 /* =========================
    STATE + STORAGE
    ========================= */
