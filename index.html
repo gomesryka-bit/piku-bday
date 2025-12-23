@@ -31,7 +31,27 @@
       --radius: 18px;
       --serif: "Cormorant Garamond", ui-serif, Georgia, serif;
       --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-    }
+      /* === LETTER SCROLLBAR STYLE === */
+.letterBody::-webkit-scrollbar{
+  width: 6px;
+}
+.letterBody::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.06);
+  border-radius: 10px;
+}
+.letterBody::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.28);
+  border-radius: 10px;
+}
+.letterBody::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,.40);
+}
+
+/* Firefox */
+.letterBody{
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.35) rgba(255,255,255,.06);
+}
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -432,13 +452,13 @@
     .hintline{margin-left:auto; font-size:12px; color:rgba(255,255,255,.70);}
 
     .paper{
-      padding:18px;
-      background: rgba(0,0,0,.12);
-      border-top:1px solid rgba(255,255,255,.06);
+  padding:18px;
+  background: rgba(0,0,0,.12);
+  border-top:1px solid rgba(255,255,255,.06);
 
-      flex-grow: 1;
-      overflow: hidden;
-    }
+  flex-grow: 1;
+  overflow: visible; /* IMPORTANT: allow inner scroll */
+}
     .paperInner{
       border-radius: 18px;
       border:1px solid rgba(255,255,255,.12);
@@ -456,18 +476,19 @@
       margin: 0 auto;
     }
 
-    .letterBody{
-      font-family: var(--serif);
-      font-size: 16.5px;           /* not huge */
-      line-height: 1.65;
-      color: rgba(255,255,255,.94);
-      letter-spacing: .2px;
-      white-space: pre-wrap;
+ .letterBody{
+  font-family: var(--serif);
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: rgba(255,255,255,.94);
+  letter-spacing: .2px;
+  white-space: pre-wrap;
 
-      flex-grow: 1;
-      overflow-y: auto;           /* scroll inside letter */
-      padding-right: 14px;
-    }
+  flex-grow: 1;
+  overflow-y: scroll;      /* FORCE scrollbar */
+  scrollbar-gutter: stable;
+  padding-right: 14px;
+}
     .letterActions{
       display:flex; gap:10px; flex-wrap:wrap; align-items:center;
       margin-top:14px;
